@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/mainActivity">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.param.emall.MainActivity"
+        android:label="activity_main"
+
+        tools:layout="@layout/activity_main" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.param.emall.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+    <activity
+        android:id="@+id/signUpActivity"
+        android:name="com.example.param.emall.SignUpActivity"
+        android:label="activity_sign_up"
+        tools:layout="@layout/activity_sign_up" />
+    <activity
+        android:id="@+id/forgotPasswordActivity"
+        android:name="com.example.param.emall.ForgotPasswordActivity"
+        android:label="activity_forgot_password"
+        tools:layout="@layout/activity_forgot_password" />
+    <action
+        android:id="@+id/action_global_mainActivity"
+        app:destination="@id/mainActivity" />
+    <action
+        android:id="@+id/mainActivity2"
+        app:destination="@id/loginActivity" />
+    <action
+        android:id="@+id/loginActivity2"
+        app:destination="@id/signUpActivity" />
+    <action
+        android:id="@+id/loginActivity4"
+        app:destination="@id/forgotPasswordActivity" />
+    <action
+        android:id="@+id/mainActivity3"
+        app:destination="@id/nav_graph" />
+</navigation>

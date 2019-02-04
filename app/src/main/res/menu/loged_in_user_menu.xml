@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- <item
+         android:id="@+id/Account_setting"
+         android:title="Account setting"/>-->
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Log Out" />
+
+        <item
+            android:id="@+id/feedback"
+            android:icon="@drawable/ic_feedback"
+            android:title="Feedback" />
+
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/ic_info"
+            android:title="About" />
+    </group>
+</menu>
