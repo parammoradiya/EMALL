@@ -7,9 +7,18 @@
          android:title="Account setting"/>-->
 
     <group
-        android:id="@+id/menu_bottom"
+        android:id="@+id/menu_top"
         android:checkableBehavior="single">
 
+        <item
+            android:id="@+id/carttab"
+            android:icon="@drawable/ic_logout"
+            android:title="Cart" />
+
+    </group>
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/logout"

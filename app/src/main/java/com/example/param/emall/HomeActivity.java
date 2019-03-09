@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,18 +24,24 @@ import android.widget.Toast;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity {
-
+    DatabaseReference reference,myRef;
     FirebaseAuth firebaseAuth;
+    public static String name,price,code;
     private DrawerLayout mDrawerlayout;
     private ActionBarDrawerToggle mToggle;
     private ElegantNumberButton mnumberbutten;
-
+    TextView quantityTextView;
     int quantity = 1;
+    public int totalQty;
+    String qty;
     Button btn_scanner,addtocartbtn;
     ListView m_listView;
     public static Firebase m_ref;
@@ -62,25 +70,55 @@ public class HomeActivity extends AppCompatActivity {
         btn_scanner=(Button)findViewById(R.id.btn_scanner);
         addtocartbtn = (Button)findViewById(R.id.addtocartbtn);
         result_text=(TextView)findViewById(R.id.product_code);
+        FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
+        // DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
 
+        String uid = Current_user.getUid();
+        reference = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");
 
         Firebase.setAndroidContext(this);
         m_ref=new Firebase("https://emall-57850.firebaseio.com//productDetails");
         m_listView=(ListView)findViewById(R.id.list_item);
-        arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,m_product_list);
+        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,m_product_list);
         m_listView.setAdapter(arrayAdapter);
 
-        /*addtocartbtn.setOnClickListener(new View.OnClickListener() {
+        addtocartbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cartintent = new Intent(HomeActivity.this,CartActivity.class);
-                Object obj = m_listView.getAdapter();
-                String value= obj.toString();
-                co.putExtra("value", value);
+                Intent cartintent = new Intent(HomeActivity.this, CartActivity.class);
+                Log.v("@@@", "" + name);
+                Log.v("@@", "" + price);
+                try {
+                    if (!name.isEmpty() && !price.isEmpty() && !qty.isEmpty()) {
+                        myRef = reference.child(code);
+                        HashMap<String, String> userMap = new HashMap<>();
+                        userMap.put("Name", name);
+                        userMap.put("Price", price);
+                        userMap.put("qty", qty);
+                        myRef.setValue(userMap);
+                /*HashMap<String,Integer> userMap1 = new HashMap<>();
+                userMap1.put("Quantity",totalQty);
+                myRef.setValue(userMap1);*/
+                        //userMap.put("Contact_no", contact_no);
+                        //userMap.put("text", contact_no);
+                        // long i = db.insertData(name,price,"1");
+                        //Log.v("data",""+i);
 
-                startActivity(cartintent);
+               /* Object obj = m_listView.getAdapter();
+                String value= obj.toString();
+                cartintent.putExtra("value", value);
+                //Log.e("value", value);
+               */
+                        startActivity(cartintent);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(HomeActivity.this, "Value is not selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        });*/
+        });
 
         /*btn_cart=(Button)findViewById(R.id.btn_cart);*/
         if (checkSelfPermission(android.Manifest.permission.CAMERA)
@@ -141,6 +179,10 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, FeedbackActivity.class));
                         break;
                     }
+                    case R.id.carttab: {
+                        startActivity(new Intent(HomeActivity.this, CartActivity.class));
+                        break;
+                    }
                 }
                 return true;
             }
@@ -159,9 +201,8 @@ public class HomeActivity extends AppCompatActivity {
         display(quantity);
     }
 
-    /**
-     * This method is called when the minus button is clicked.
-     */
+
+     // This method is called when the minus button is clicked.
     public void decreament(View view) {
         if (quantity <= 1) {
             Toast.makeText(this, "can not order less than 1 cup!", Toast.LENGTH_SHORT).show();
@@ -171,11 +212,12 @@ public class HomeActivity extends AppCompatActivity {
         display(quantity);
     }
 
-    /**
-     * This method displays the given quantity value on the screen.
-     */
+
+     // This method displays the given quantity value on the screen.
     private void display(int number) {
-        TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        quantityTextView.setText("" + number);
+        totalQty = number;
+        qty = String.valueOf(totalQty);
+        quantityTextView = findViewById(R.id.quantity_text_view);
+        quantityTextView.setText("" + totalQty);
     }
 }
