@@ -1,63 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp">
 
     <RelativeLayout
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
         android:id="@+id/rel"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white">
 
-        <LinearLayout
-            android:id="@+id/clineanerlayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/cpname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="21dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:text="product name"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cpprice"
-                android:text="price"
-                android:textSize="21dp"
-                android:textStyle="bold"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/cpname"/>
-
-        </LinearLayout>
         <TextView
+            android:id="@+id/cpname"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:text="product name"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cpquantity"
-            android:text="Q"
-            android:layout_toRightOf="@+id/clineanerlayout"
-            android:textStyle="bold"
-            android:textSize="21dp"
+            android:layout_below="@+id/cpname"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Rs."
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cpprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cpname"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/rs"
+            android:text="price"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/cpname"
             android:background="@android:color/white"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="15dp"/>
+            android:text="Qty: "
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cpquantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@+id/qty"
+            android:background="@android:color/white"
+            android:text="Q"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
+
     <Button
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rel"
-        android:text="remove"
         android:background="@android:color/white"
-        android:layout_height="wrap_content" />
+        android:text="remove" />
 
 </RelativeLayout>

@@ -5,18 +5,31 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     tools:context=".CartActivity"
-    android:background="#D3D3D3">
+    android:background="#E0E0E0">
 
     <include
         android:id="@+id/Cart_toolbar"
         layout="@layout/app_bar_layout"></include>
 
-   <TextView
+  <!-- <TextView
        android:layout_below="@+id/Cart_toolbar"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:id="@+id/text"
-       android:text="cart activity"/>
+       android:text="cart activity"/>-->
+
+    <ListView
+        android:layout_below="@+id/Cart_toolbar"
+        android:id="@+id/cart_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UnknownId">
+    </ListView>
 
 
 </RelativeLayout>
