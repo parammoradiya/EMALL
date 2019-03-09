@@ -29,11 +29,11 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        /*recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         list = new ArrayList<ItemData>();
         FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = Current_user.getUid();
-        refDb = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");
+        refDb = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");*/
        // listView = (ListView)findViewById(R.id.list_Data);
 
         /*Bundle recdData = getIntent().getExtras();
