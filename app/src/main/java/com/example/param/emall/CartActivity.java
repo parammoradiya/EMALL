@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,10 +26,20 @@ public class CartActivity extends AppCompatActivity {
    ArrayList<ItemData> list;
    MyAdapter adapter;
    DatabaseReference refDb;
+
+
+   private Toolbar OToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
+        setSupportActionBar(OToolbar);
+        getSupportActionBar().setTitle("CART");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         /*recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         list = new ArrayList<ItemData>();
         FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
@@ -49,7 +60,7 @@ public class CartActivity extends AppCompatActivity {
         adapter = new MyAdapter(CartActivity.this,list);
         recyclerView.setAdapter(adapter);*/
 
-       refDb.addValueEventListener(new ValueEventListener() {
+      /* refDb.addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -59,7 +70,7 @@ public class CartActivity extends AppCompatActivity {
            public void onCancelled(@NonNull DatabaseError databaseError) {
 
            }
-       });
+       });*/
 
 
 
