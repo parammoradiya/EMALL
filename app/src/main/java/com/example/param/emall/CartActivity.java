@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,7 +32,8 @@ public class CartActivity extends AppCompatActivity {
     TextView pname,pprice,pqua;
     FirebaseListAdapter adapter;
     private FirebaseUser mCurrentuser;
-    private DatabaseReference mUserdatabase;
+    private DatabaseReference mUserdatabase,mref;
+    Button mcartdelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
 
         mlistview = (ListView) findViewById(R.id.cart_list);
+        mcartdelete = (Button)findViewById(R.id.cartdelete);
 
         OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
         setSupportActionBar(OToolbar);
@@ -46,7 +49,7 @@ public class CartActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
-        String current_uid = mCurrentuser.getUid();
+        final String current_uid = mCurrentuser.getUid();
         mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid);
 
         Query query = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
@@ -71,6 +74,27 @@ public class CartActivity extends AppCompatActivity {
 
         mlistview.setAdapter(adapter);
 
+        /*mcartdelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                Query applesQuery = ref.child("user").child(current_uid).child("prduct_list").orderByChild("Name").equalTo(pname.getText().toString());
+
+                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                            appleSnapshot.getRef().removeValue();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.e("cancel", "onCancelled", databaseError.toException());
+                    }
+                });
+            }
+        });*/
     }
     @Override
     protected void onStart() {
