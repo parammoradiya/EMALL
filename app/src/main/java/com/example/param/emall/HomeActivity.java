@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -32,25 +34,30 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity {
-    DatabaseReference reference,myRef;
+    DatabaseReference reference, myRef;
     FirebaseAuth firebaseAuth;
-    public static String name,price,code;
+    private int REQUEST = 100;
+    static int Total;
+    HashMap<String,String> cart;
+    boolean flag = false;
+    public static String name, price, code,error;
     private DrawerLayout mDrawerlayout;
     private ActionBarDrawerToggle mToggle;
     private ElegantNumberButton mnumberbutten;
-    TextView quantityTextView;
+    TextView quantityTextView,txtData;
     int quantity = 1;
+    String codeSacn;
     public int totalQty;
-    String qty;
-    Button btn_scanner,addtocartbtn;
+    String qty="1";
+    Button btn_scanner, addtocartbtn;
     ListView m_listView;
     public static Firebase m_ref;
-    public static  TextView result_text;
+    public static TextView result_text;
     DatabaseReference databaseReference;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     public static ArrayList<String> m_product_list = new ArrayList<>();
     public static ArrayAdapter<String> arrayAdapter;
-    Button btn_cart;
+    Button btn_cart,Dec,Inc;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -58,62 +65,100 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        txtData = (TextView)findViewById(R.id.product_code);
         mDrawerlayout = (DrawerLayout) findViewById(R.id.activity_home_drawer);
         mToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
         mDrawerlayout.addDrawerListener(mToggle);
         mToggle.syncState();
+        cart = new HashMap<>();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initNavigationDrawer();
 
-        btn_scanner=(Button)findViewById(R.id.btn_scanner);
-        addtocartbtn = (Button)findViewById(R.id.addtocartbtn);
-        result_text=(TextView)findViewById(R.id.product_code);
+        btn_scanner = (Button) findViewById(R.id.btn_scanner);
+        addtocartbtn = (Button) findViewById(R.id.addtocartbtn);
+        result_text = (TextView) findViewById(R.id.product_code);
         FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
         // DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
-
+        quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
+        quantityTextView.setText("1");
         String uid = Current_user.getUid();
         reference = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");
 
         Firebase.setAndroidContext(this);
-        m_ref=new Firebase("https://emall-57850.firebaseio.com//productDetails");
-        m_listView=(ListView)findViewById(R.id.list_item);
-        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,m_product_list);
+        m_ref = new Firebase("https://emall-57850.firebaseio.com//productDetails");
+        m_listView = (ListView) findViewById(R.id.list_item);
+        Inc = (Button)findViewById(R.id.Inc);
+        Dec = (Button) findViewById(R.id.Dec);
+        Inc.setVisibility(View.INVISIBLE);
+        Dec.setVisibility(View.INVISIBLE);
+        quantityTextView.setVisibility(View.INVISIBLE);
+        //HomeActivity.arrayAdapter.clear();
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_product_list);
         m_listView.setAdapter(arrayAdapter);
+
+
 
         addtocartbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                try{
                 Intent cartintent = new Intent(HomeActivity.this, CartActivity.class);
+                Log.v("Code.....",code);
                 Log.v("@@@", "" + name);
                 Log.v("@@", "" + price);
-                try {
-                    if (!name.isEmpty() && !price.isEmpty() && !qty.isEmpty()) {
-                        myRef = reference.child(code);
-                        HashMap<String, String> userMap = new HashMap<>();
-                        userMap.put("Name", name);
-                        userMap.put("Price", price);
-                        userMap.put("qty", qty);
-                        myRef.setValue(userMap);
+                     quantity =1;
+                    if(!code.equals("1")) {
+                        if (!name.isEmpty() && !price.isEmpty() && !qty.isEmpty()) {
+                            myRef = reference.child(code);
+                            HashMap<String, String> userMap = new HashMap<>();
+                            userMap.put("Name", name);
+                            userMap.put("Price", price);
+                            userMap.put("qty", qty);
+                            myRef.setValue(userMap);
+                            cart.put("Name", name);
+                            cart.put("Price", price);
+                            cart.put("qty", qty);
+                            Total = Integer.parseInt(qty)*Integer.parseInt(price);
                 /*HashMap<String,Integer> userMap1 = new HashMap<>();
                 userMap1.put("Quantity",totalQty);
                 myRef.setValue(userMap1);*/
-                        //userMap.put("Contact_no", contact_no);
-                        //userMap.put("text", contact_no);
-                        // long i = db.insertData(name,price,"1");
-                        //Log.v("data",""+i);
+                            //userMap.put("Contact_no", contact_no);
+                            //userMap.put("text", contact_no);
+                            // long i = db.insertData(name,price,"1");
+                            //Log.v("data",""+i);
 
                /* Object obj = m_listView.getAdapter();
                 String value= obj.toString();
                 cartintent.putExtra("value", value);
                 //Log.e("value", value);
                */
-                        startActivity(cartintent);
+                            startActivity(cartintent);
+                            Log.v("CART ::",cart.toString());
+                            arrayAdapter.clear();
+                            quantityTextView.setText("1");
+                            code="";
+                            name="";
+                            price="";
+                        } else {
+                            quantityTextView.setText("1");
+                            Inc.setVisibility(View.INVISIBLE);
+                            Dec.setVisibility(View.INVISIBLE);
+                            quantityTextView.setVisibility(View.INVISIBLE);
+                            Toast.makeText(HomeActivity.this, "Product is not Found", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-                catch (Exception e)
-                {
+                    else{
+                        Inc.setVisibility(View.INVISIBLE);
+                        Dec.setVisibility(View.INVISIBLE);
+                        quantityTextView.setVisibility(View.INVISIBLE);
+                        Toast.makeText(HomeActivity.this, "Product is not Found", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Inc.setVisibility(View.INVISIBLE);
+                    Dec.setVisibility(View.INVISIBLE);
+                    quantityTextView.setVisibility(View.INVISIBLE);
                     Toast.makeText(HomeActivity.this, "Value is not selected", Toast.LENGTH_SHORT).show();
                 }
 
@@ -130,17 +175,41 @@ public class HomeActivity extends AppCompatActivity {
         btn_scanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ScannerActivity.class));
+                name = "";
+                price ="";
+                startActivityForResult(new Intent(getApplicationContext(),ScannerActivity.class),REQUEST);
+                Dec.setVisibility(View.VISIBLE);
+                Inc.setVisibility(View.VISIBLE);
+                quantityTextView.setVisibility(View.VISIBLE);
             }
         });
 
+        /*if(code.equals("")){
+            Toast.makeText(HomeActivity.this,"Product is not Found",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_product_list);
+            m_listView.setAdapter(arrayAdapter);
+        }*/
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST){
+            if(resultCode == RESULT_OK) {
+                code = data.getStringExtra("CODE");
+                error = data.getStringExtra("ERROR");
+
+            }
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==MY_CAMERA_REQUEST_CODE)
+        if (requestCode == MY_CAMERA_REQUEST_CODE)
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(HomeActivity.this, "camera permission granted", Toast.LENGTH_LONG).show();
             } else {
@@ -193,7 +262,7 @@ public class HomeActivity extends AppCompatActivity {
      * This method is called when the plus button is clicked.
      */
     public void increament(View view) {
-        if (quantity == 10) {
+        if (quantity >= 10) {
             Toast.makeText(this, "can not order more than 10 cups!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -201,8 +270,7 @@ public class HomeActivity extends AppCompatActivity {
         display(quantity);
     }
 
-
-     // This method is called when the minus button is clicked.
+    // This method is called when the minus button is clicked.
     public void decreament(View view) {
         if (quantity <= 1) {
             Toast.makeText(this, "can not order less than 1 cup!", Toast.LENGTH_SHORT).show();
@@ -212,12 +280,11 @@ public class HomeActivity extends AppCompatActivity {
         display(quantity);
     }
 
-
-     // This method displays the given quantity value on the screen.
+    // This method displays the given quantity value on the screen.
     private void display(int number) {
         totalQty = number;
         qty = String.valueOf(totalQty);
-        quantityTextView = findViewById(R.id.quantity_text_view);
-        quantityTextView.setText("" + totalQty);
+        //quantityTextView = findViewById(R.id.quantity_text_view);
+        quantityTextView.setText(qty);
     }
 }

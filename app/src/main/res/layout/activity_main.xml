@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:layout_gravity="center"
     app:SpinKit_Color="@color/colorPrimary"
-    style="@style/SpinKitView.Large.Wave"
+    style="@style/SpinKitView.Large.ThreeBounce"
     >
 
 

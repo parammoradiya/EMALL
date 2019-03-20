@@ -1,16 +1,20 @@
 package com.example.param.emall;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -24,42 +28,92 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CartActivity extends AppCompatActivity {
 
+    Button btn_payment;
     private Toolbar OToolbar;
     private ListView mlistview;
-    TextView pname,pprice,pqua;
+    public ArrayList list;
+    TextView pname,pprice,pqua,txt_amount;
     FirebaseListAdapter adapter;
+    String code;
+    int count;
+    static int amount,TotalPrice;
+    int[] total;
+    int pos=0;
     private FirebaseUser mCurrentuser;
-    private DatabaseReference mUserdatabase,mref;
+
     Button mcartdelete;
+
+    ArrayList<cartactivitymodel> mlist;
+    private DatabaseReference mUserdatabase,mref,mreference;
+    RecyclerView mrecyclerview;
+    CartAdapter madapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
-        mlistview = (ListView) findViewById(R.id.cart_list);
-        mcartdelete = (Button)findViewById(R.id.cartdelete);
-
+        //txt_amount = (TextView)findViewById(R.id.txt_amount);
+          btn_payment=(Button)findViewById(R.id.payment);
+        //mlistview = (ListView) findViewById(R.id.cart_list);
+        //mcartdelete = (Button)findViewById(R.id.cartdelete);
+        list = new ArrayList();
         OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
+
+        mrecyclerview  = (RecyclerView)findViewById(R.id.myRecyclerview);
+        mrecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        mlist = new ArrayList<cartactivitymodel>();
+
+        mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
+        final String current_uid = mCurrentuser.getUid();
+        mreference = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
+        mreference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    cartactivitymodel ca = dataSnapshot1.getValue(cartactivitymodel.class);
+                    mlist.add(ca);
+                }
+
+                madapter = new CartAdapter(CartActivity.this,mlist);
+                mrecyclerview.setAdapter(madapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(CartActivity.this,"faiiled to load cart data!!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
         setSupportActionBar(OToolbar);
         getSupportActionBar().setTitle("CART");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
-        final String current_uid = mCurrentuser.getUid();
         mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid);
 
         Query query = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
         FirebaseListOptions<cartactivitymodel> options = new FirebaseListOptions.Builder<cartactivitymodel>().setLayout(R.layout.cart_layout).setQuery(query, cartactivitymodel.class).build();
+        total = new int[100];
+        final ArrayList<String> keyList = new ArrayList<>();
+        final ArrayList<String> itemname = new ArrayList<>();
+        //final ArrayList<String> itemsqty = new ArrayList<>();
 
-        adapter = new FirebaseListAdapter(options) {
+    btn_payment.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent i=new Intent(CartActivity.this,Payment.class);
+            startActivity(i);
+        }
+    });
+        /*adapter = new FirebaseListAdapter(options) {
             @Override
             protected void populateView(View v, Object model, int position) {
-
-                Log.v("hii2", "aaaa");
+                amount = 0;
+               // Log.v("hii2", "aaaa");
                 pname = v.findViewById(R.id.cpname);
                 pprice = v.findViewById(R.id.cpprice);
                 pqua = v.findViewById(R.id.cpquantity);
@@ -69,45 +123,92 @@ public class CartActivity extends AppCompatActivity {
                 pname.setText(rep.getName().toString());
                 pprice.setText(rep.getPrice().toString());
                 pqua.setText(rep.getQty().toString());
+                String price = rep.getPrice().toString();
+                Log.v("Price >>>",price);
+                String qty = rep.getQty().toString();
+                Log.v("QTY >>>",qty);
+               amount = amount + (Integer.parseInt(price)*Integer.parseInt(qty));
+               list.add(amount);
+
+               *//*for(int i=0;i<adapter.getCount();i++){
+               total[i] = amount;
+               TotalPrice = TotalPrice + amount;
+               Log.v("Price >>>>",String.valueOf(TotalPrice));
+               Log.v("total jo >>>",String.valueOf(total[i]));
+                   amount = 0;}*//*
+               Log.v("Amount >>",String.valueOf(amount));
+                Log.v("ADAPTER SIze >>>>",String.valueOf(adapter.getCount()));
+               // txt_amount.setText("Total amount = "+amount);
+                count = adapter.getCount();
             }
         };
 
-        mlistview.setAdapter(adapter);
+        mlistview.setAdapter(adapter);*/
 
-        /*mcartdelete.setOnClickListener(new View.OnClickListener() {
+
+
+        for(int i=0;i<mlist.size();i++){
+            TotalPrice = TotalPrice + mlist.indexOf(i);
+            Log.v("km cho ???",String.valueOf(mlist.indexOf(i)));
+            Log.v("LALA >>>",String.valueOf(TotalPrice));
+        }
+        /*Log.v("COunteriya >>>>",String.valueOf(count));
+        Log.v("LIST >>>>",mlistview.toString());*/
+
+      /* mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                     pos = position;
+                     code = (String) parent.getItemAtPosition(position);
+               Toast.makeText(CartActivity.this,"Name " +code ,Toast.LENGTH_SHORT).show();
+           }
+       });*/
+
+       /*mcartdelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                Query applesQuery = ref.child("user").child(current_uid).child("prduct_list").orderByChild("Name").equalTo(pname.getText().toString());
+                Query applesQuery = ref.child("user").child(current_uid).child("prduct_list");
 
-                applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                            appleSnapshot.getRef().removeValue();
+                final String str = cartactivitymodel.getName().substring(0,6);
+                if(str==""){
+                    Toast.makeText(Showdata.this,"Please Select Items",Toast.LENGTH_LONG).show();
+                }else {
+                    applesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot appleSnapshot : dataSnapshot.getChildren()) {
+                                appleSnapshot.getRef().removeValue();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e("cancel", "onCancelled", databaseError.toException());
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.e("cancel", "onCancelled", databaseError.toException());
+                        }
+                    });
+                }
             }
         });*/
     }
-    @Override
+
+    /*@Override
     protected void onStart() {
         super.onStart();
-
         adapter.startListening();
-    }
+    }*/
 
-    @Override
+    /*@Override
+    public boolean onNavigateUp() {
+        onBackPressed();
+        return super.onNavigateUp();
+    }*/
+
+    /*@Override
     protected void onStop() {
         super.onStop();
-
         adapter.stopListening();
-    }
+    }*/
+
 }
 

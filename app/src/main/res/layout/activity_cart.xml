@@ -4,32 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    tools:context=".CartActivity"
-    android:background="#E0E0E0">
+    android:background="#E0E0E0"
+    tools:context=".CartActivity">
 
     <include
         android:id="@+id/Cart_toolbar"
         layout="@layout/app_bar_layout"></include>
 
-  <!-- <TextView
-       android:layout_below="@+id/Cart_toolbar"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:id="@+id/text"
-       android:text="cart activity"/>-->
-
-    <ListView
-        android:layout_below="@+id/Cart_toolbar"
-        android:id="@+id/cart_list"
+    <!-- <TextView
+         android:layout_below="@+id/Cart_toolbar"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/text"
+         android:text="cart activity"/>-->
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UnknownId">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Cart_toolbar">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--<ListView
+                android:id="@+id/cart_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UnknownId">
+            </ListView>-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myRecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+
+            <!-- <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="Total Amount : 0"
+                 android:id="@+id/txt_amount"/>-->
+        </RelativeLayout>
+
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/squer_button"
+        android:text="Pay"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

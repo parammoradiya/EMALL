@@ -19,7 +19,10 @@
             android:background="@drawable/round_corner_butten"
             android:text="Scan code"
             android:textColor="@android:color/white" />
-
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtData"/>-->
         <!--<ImageButton-->
         <!--android:id="@+id/btn_scanner"-->
         <!--android:layout_width="match_parent"-->
@@ -37,7 +40,8 @@
             android:id="@+id/list_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/product_code"></ListView>
+            android:layout_below="@+id/product_code"
+            ></ListView>
 
         <LinearLayout
             android:layout_centerInParent="true"
@@ -45,20 +49,22 @@
             android:id="@+id/productquantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            >
 
         <Button
             android:textColor="@android:color/white"
             android:background="@drawable/round_corner_butten"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:onClick="decreament"
             android:text="-"
-            tools:ignore="OnClick" />
+            tools:ignore="OnClick"
+            android:id="@+id/Dec"/>
 
         <TextView
             android:id="@+id/quantity_text_view"
@@ -66,6 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:text="1"
             android:textColor="#000000"
             android:textSize="16sp" />
@@ -76,7 +83,9 @@
             android:background="@drawable/round_corner_butten"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:onClick="increament"
+            android:id="@+id/Inc"
             android:text="+"
             android:textColor="@android:color/white"
             tools:ignore="OnClick" />

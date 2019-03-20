@@ -15,7 +15,7 @@ public class cartactivitymodel {
         this.qty = qty;
     }
 
-    public String getName() {
+    public  String getName() {
         return Name;
     }
 
