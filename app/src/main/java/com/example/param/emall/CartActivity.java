@@ -144,14 +144,33 @@ public class CartActivity extends AppCompatActivity {
         };
 
         mlistview.setAdapter(adapter);*/
+      /*  String price = rep.getPrice().toString();
+        Log.v("Price >>>",price);
+        String qty = rep.getQty().toString();
+        Log.v("QTY >>>",qty);*/
+        //amount = amount + (Integer.parseInt(price)*Integer.parseInt(qty));
+        //list.add(amount);
 
-
+       /* for(int i=0;i<madapter.getItemCount();i++)
+        {
+            total[i] = amount;
+            TotalPrice = TotalPrice + amount;
+            Log.v("Price >>>>",String.valueOf(TotalPrice));
+            Log.v("total jo >>>",String.valueOf(total[i]));
+            amount = 0;
+        }*/
+           /* Log.v("Amount >>",String.valueOf(amount));
+        Log.v("ADAPTER SIze >>>>",String.valueOf(madapter.getItemCount()));*/
+    // txt_amount.setText("Total amount = "+amount);
+        /*count = madapter.getItemCount();
 
         for(int i=0;i<mlist.size();i++){
+
             TotalPrice = TotalPrice + mlist.indexOf(i);
             Log.v("km cho ???",String.valueOf(mlist.indexOf(i)));
             Log.v("LALA >>>",String.valueOf(TotalPrice));
-        }
+
+        }*/
         /*Log.v("COunteriya >>>>",String.valueOf(count));
         Log.v("LIST >>>>",mlistview.toString());*/
 

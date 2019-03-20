@@ -8,12 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
+
     Context context;
+    static int amount =0;
     ArrayList<cartactivitymodel> cartactivitymodels;
+    int[] qty = new int[20];
+    int[] pri = new int[20];
 
     public CartAdapter(Context c,ArrayList<cartactivitymodel> ca)
     {
@@ -32,6 +37,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         cartViewHolder.pname.setText(cartactivitymodels.get(i).getName());
         cartViewHolder.pprice.setText(cartactivitymodels.get(i).getPrice());
         cartViewHolder.pqty.setText(cartactivitymodels.get(i).getQty());
+
+        qty[i] = Integer.parseInt(cartactivitymodels.get(i).getQty());
+        pri[i] = Integer.parseInt(cartactivitymodels.get(i).getPrice());
+        amount = amount + (qty[i]*pri[i]);
     }
 
     @Override
@@ -39,11 +48,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartactivitymodels.size() ;
     }
 
+
     class CartViewHolder extends RecyclerView.ViewHolder
     {
-
         TextView pname, pprice, pqty;
-        public CartViewHolder(View itemView){
+        public CartViewHolder(View itemView)
+        {
             super(itemView);
             pname = (TextView)itemView.findViewById(R.id.cpname);
             pprice = (TextView)itemView.findViewById(R.id.cpprice);
