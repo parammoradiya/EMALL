@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class checksum extends AppCompatActivity implements PaytmPaymentTransactionCallback {
+
     static String total ="";
-    static String custid="", orderId="", mid="";
+    static String custid = "111111111111", orderId="", mid="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +33,10 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         Intent intent = getIntent();
-        orderId = intent.getExtras().getString("orderid");
-        custid = intent.getExtras().getString("custid");
+        //orderId = intent.getExtras().getString("orderid");
+        orderId = String.valueOf(CartActivity.count);
+        custid = String.valueOf(custid);
+        //custid = intent.getExtras().getString("custid");
         total = String.valueOf(CartAdapter.amount);
         CartAdapter.amount =0;
         mid = "PZbWtu87676061075527"; /// your marchant key
@@ -122,11 +126,8 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
             // start payment service call here
             Service.startPaymentTransaction(checksum.this, true, true,
                     checksum.this  );
-
         }
-
     }
-
 
     @Override
     public void onTransactionResponse(Bundle bundle) {
@@ -136,6 +137,7 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
        /* i.putExtra("CustomerID",custid);
         i.putExtra("Total",total);*/
         startActivity(i);
+        finish();
     }
 
     @Override
@@ -162,16 +164,14 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
     @Override
     public void onBackPressedCancelTransaction() {
         Log.e("checksum ", " cancel call back respon  " );
-        startActivity(new Intent(checksum.this,Payment.class));
+        startActivity(new Intent(checksum.this,CartActivity.class));
     }
 
     @Override
     public void onTransactionCancel(String s, Bundle bundle) {
         Log.e("checksum ", "  transaction cancel " );
         Toast.makeText(checksum.this,"Transaction Cancel...",Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(checksum.this,Payment.class));
+        startActivity(new Intent(checksum.this,CartActivity.class));
 
     }
-
-
 }

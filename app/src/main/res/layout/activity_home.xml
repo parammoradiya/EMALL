@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/infotext"
+            android:text="Scan Product Barcode"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/btn_scanner"
             android:layout_width="match_parent"
@@ -18,17 +28,8 @@
             android:layout_margin="20dp"
             android:background="@drawable/round_corner_butten"
             android:text="Scan code"
+            android:layout_below="@+id/infotext"
             android:textColor="@android:color/white" />
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtData"/>-->
-        <!--<ImageButton-->
-        <!--android:id="@+id/btn_scanner"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:src="@drawable/scanner"-->
-        <!--/>-->
 
         <TextView
             android:id="@+id/product_code"
@@ -43,15 +44,25 @@
             android:layout_below="@+id/product_code"
             ></ListView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/infoqty"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:layout_margin="20dp"
+            android:layout_below="@+id/list_item"
+            android:text="add Quantity"/>
+
         <LinearLayout
             android:layout_centerInParent="true"
-            android:layout_below="@id/list_item"
+            android:layout_below="@id/infoqty"
             android:id="@+id/productquantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
         <Button
             android:textColor="@android:color/white"

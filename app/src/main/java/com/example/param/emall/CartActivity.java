@@ -28,6 +28,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class CartActivity extends AppCompatActivity {
@@ -36,34 +38,41 @@ public class CartActivity extends AppCompatActivity {
     private Toolbar OToolbar;
     private ListView mlistview;
     public ArrayList list;
-    TextView pname,pprice,pqua,txt_amount;
+    TextView pname, pprice, pqua, txt_amount;
     FirebaseListAdapter adapter;
     String code;
-    int count;
-    static int amount,TotalPrice;
-    int[] total;
-    int pos=0;
+    static int count=1000;
+    static int amount, TotalPrice;
+ //   int[] total;
+    int pos = 0;
     private FirebaseUser mCurrentuser;
 
     Button mcartdelete;
 
     ArrayList<cartactivitymodel> mlist;
-    private DatabaseReference mUserdatabase,mref,mreference;
+    private DatabaseReference mUserdatabase, mref, mreference;
     RecyclerView mrecyclerview;
     CartAdapter madapter;
+    private String orderid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        //txt_amount = (TextView)findViewById(R.id.txt_amount);
-          btn_payment=(Button)findViewById(R.id.payment);
+
+        txt_amount = (TextView)findViewById(R.id.txt_amount);
+        btn_payment = (Button) findViewById(R.id.payment);
         //mlistview = (ListView) findViewById(R.id.cart_list);
         //mcartdelete = (Button)findViewById(R.id.cartdelete);
         list = new ArrayList();
         OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
 
-        mrecyclerview  = (RecyclerView)findViewById(R.id.myRecyclerview);
+        setSupportActionBar(OToolbar);
+        getSupportActionBar().setTitle("CART");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mrecyclerview = (RecyclerView) findViewById(R.id.myRecyclerview);
         mrecyclerview.setLayoutManager(new LinearLayoutManager(this));
         mlist = new ArrayList<cartactivitymodel>();
 
@@ -73,42 +82,38 @@ public class CartActivity extends AppCompatActivity {
         mreference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     cartactivitymodel ca = dataSnapshot1.getValue(cartactivitymodel.class);
                     mlist.add(ca);
                 }
-
-                madapter = new CartAdapter(CartActivity.this,mlist);
+                madapter = new CartAdapter(CartActivity.this, mlist);
                 mrecyclerview.setAdapter(madapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(CartActivity.this,"faiiled to load cart data!!",Toast.LENGTH_LONG).show();
+                Toast.makeText(CartActivity.this, "failed to load cart data!!", Toast.LENGTH_LONG).show();
             }
         });
 
-
-        setSupportActionBar(OToolbar);
-        getSupportActionBar().setTitle("CART");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid);
-
-        Query query = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
-        FirebaseListOptions<cartactivitymodel> options = new FirebaseListOptions.Builder<cartactivitymodel>().setLayout(R.layout.cart_layout).setQuery(query, cartactivitymodel.class).build();
-        total = new int[100];
-        final ArrayList<String> keyList = new ArrayList<>();
-        final ArrayList<String> itemname = new ArrayList<>();
+        //mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid);
+        //Query query = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
+        //FirebaseListOptions<cartactivitymodel> options = new FirebaseListOptions.Builder<cartactivitymodel>().setLayout(R.layout.cart_layout).setQuery(query, cartactivitymodel.class).build();
+        //total = new int[100];
+        //final ArrayList<String> keyList = new ArrayList<>();
+        //final ArrayList<String> itemname = new ArrayList<>();
         //final ArrayList<String> itemsqty = new ArrayList<>();
 
-    btn_payment.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent i=new Intent(CartActivity.this,Payment.class);
-            startActivity(i);
-        }
-    });
+        /*Date currentTime = Calendar.getInstance().getTime();
+        orderid = "0000" + current_uid ;*/
+
+        btn_payment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CartActivity.this, CartItemConfirmActivity.class);
+                startActivity(i);
+            }
+        });
+
         /*adapter = new FirebaseListAdapter(options) {
             @Override
             protected void populateView(View v, Object model, int position) {
@@ -161,7 +166,7 @@ public class CartActivity extends AppCompatActivity {
         }*/
            /* Log.v("Amount >>",String.valueOf(amount));
         Log.v("ADAPTER SIze >>>>",String.valueOf(madapter.getItemCount()));*/
-    // txt_amount.setText("Total amount = "+amount);
+        // txt_amount.setText("Total amount = "+amount);
         /*count = madapter.getItemCount();
 
         for(int i=0;i<mlist.size();i++){
@@ -211,6 +216,7 @@ public class CartActivity extends AppCompatActivity {
         });*/
     }
 
+
     /*@Override
     protected void onStart() {
         super.onStart();
@@ -229,5 +235,5 @@ public class CartActivity extends AppCompatActivity {
         adapter.stopListening();
     }*/
 
-}
 
+}

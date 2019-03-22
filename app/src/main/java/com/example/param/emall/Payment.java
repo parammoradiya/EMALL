@@ -19,9 +19,11 @@ public class Payment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         Button btn = (Button) findViewById(R.id.start_transaction);
         orderid = (EditText) findViewById(R.id.orderid);
         custid = (EditText) findViewById(R.id.custid);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

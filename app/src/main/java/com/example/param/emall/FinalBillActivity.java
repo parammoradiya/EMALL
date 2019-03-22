@@ -27,27 +27,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FinalBillActivity extends AppCompatActivity {
+
     Button btnCreate;
     TextView text;
     String count1;
-    int count=0;
+    //int count=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_bill);
         btnCreate = (Button)findViewById(R.id.create);
         text =(TextView) findViewById(R.id.text1);
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                count=count+1;
-                count1=String.valueOf(count);
+      //          count=count+1;
+                count1=String.valueOf(CartActivity.count);
                 createpdf1();
+                startActivity(new Intent(FinalBillActivity.this,HomeActivity.class));
             }
 
 
         });
-
     }
 
     private void createpdf1() {
@@ -70,12 +73,9 @@ public class FinalBillActivity extends AppCompatActivity {
 
         Canvas canvas = page.getCanvas();
 
-
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#ffffff"));
         canvas.drawPaint(paint);
-
-
 
         bitmap = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
 
@@ -87,19 +87,27 @@ public class FinalBillActivity extends AppCompatActivity {
         canvas.drawText("Total:-"+checksum.total, 40, 230, paint);
         document.finishPage(page);
 
-
         // write the document content
         String directory_path = Environment.getExternalStorageDirectory().getPath() + "/myBill/";
         File file = new File(directory_path);
+
         if (!file.exists())
         {
             file.mkdirs();
         }
-        String targetPdf = directory_path+""+count+".pdf";
+
+        String targetPdf = directory_path + "" + CartActivity.count + ".pdf";
         File filePath = new File(targetPdf);
+
         try {
-            document.writeTo(new FileOutputStream(filePath));
-            Toast.makeText(FinalBillActivity.this,"Invoice Downloaded",Toast.LENGTH_LONG).show();
+
+            if (!filePath.exists())
+            {
+                document.writeTo(new FileOutputStream(filePath));
+            }
+            if(filePath.exists()) {
+                Toast.makeText(FinalBillActivity.this, "Invoice Downloaded", Toast.LENGTH_LONG).show();
+            }
 
             //boolean_save=true;
         } catch (IOException e) {

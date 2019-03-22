@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     public static Firebase m_ref;
     public static TextView result_text;
     DatabaseReference databaseReference;
-    private static final int MY_CAMERA_REQUEST_CODE = 100;
+    private static final int MY_CAMERA_REQUEST_CODE = 100,MY_STORAGE_REQUEST_CODE = 200;
     public static ArrayList<String> m_product_list = new ArrayList<>();
     public static ArrayAdapter<String> arrayAdapter;
     Button btn_cart,Dec,Inc;
@@ -171,7 +171,12 @@ public class HomeActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     MY_CAMERA_REQUEST_CODE);
         }
-
+        /*if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                   MY_STORAGE_REQUEST_CODE);
+        }
+*/
         btn_scanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -40,7 +40,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         qty[i] = Integer.parseInt(cartactivitymodels.get(i).getQty());
         pri[i] = Integer.parseInt(cartactivitymodels.get(i).getPrice());
-        amount = amount + (qty[i]*pri[i]);
+        amount = amount + (qty[i] * pri[i]);
+        //cartViewHolder.ptotalprice.setText(amount);
     }
 
     @Override
@@ -51,13 +52,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     class CartViewHolder extends RecyclerView.ViewHolder
     {
-        TextView pname, pprice, pqty;
+        TextView pname, pprice, pqty,ptotalprice;
         public CartViewHolder(View itemView)
         {
             super(itemView);
             pname = (TextView)itemView.findViewById(R.id.cpname);
             pprice = (TextView)itemView.findViewById(R.id.cpprice);
             pqty = (TextView)itemView.findViewById(R.id.cpquantity);
+            //ptotalprice = (TextView)itemView.findViewById(R.id.txt_amount);
         }
     }
 }
