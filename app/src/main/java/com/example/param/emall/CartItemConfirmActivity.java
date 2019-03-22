@@ -43,11 +43,11 @@ public class CartItemConfirmActivity extends AppCompatActivity {
         paybtn = (Button)findViewById(R.id.cartpaybtn);
         txt_amount = (TextView)findViewById(R.id.txt_amount);
 
-        OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
+        OToolbar = (Toolbar) findViewById(R.id.Cart_Confirm_toolbar);
 
-        //setSupportActionBar(OToolbar);
-        //getSupportActionBar().setTitle("CART");
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(OToolbar);
+        getSupportActionBar().setTitle("CONFIRM ORDER");
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mrecyclerview = (RecyclerView) findViewById(R.id.myRecyclerview);
         mrecyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -72,13 +72,15 @@ public class CartItemConfirmActivity extends AppCompatActivity {
             }
         });
 
-        String totalp  = String.valueOf(CartAdapter.amount);
+        final String totalp  = String.valueOf(CartAdapter.amount);
        txt_amount.setText("Total Amount : " +  totalp);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CartAdapter.amount = 0;
                 startActivity(new Intent(CartItemConfirmActivity.this,CartActivity.class));
+
             }
         });
 

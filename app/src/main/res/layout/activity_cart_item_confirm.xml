@@ -6,14 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".CartItemConfirmActivity">
 
+    <include
+        android:id="@+id/Cart_Confirm_toolbar"
+        layout="@layout/app_bar_layout"></include>
+
     <TextView
         android:id="@+id/infoconf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:layout_margin="5dp"
         android:textColor="@color/black"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/Cart_Confirm_toolbar"
         android:text="You Have Following Item"/>
 
     <android.support.v7.widget.RecyclerView
