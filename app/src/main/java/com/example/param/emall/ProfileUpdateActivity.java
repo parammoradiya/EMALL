@@ -88,7 +88,6 @@ public class ProfileUpdateActivity extends AppCompatActivity {
                 lastlogin.put("Last Seen Time",timeString);
                 lastSeen.setValue(lastlogin);
 
-
                 startActivity(new Intent(ProfileUpdateActivity.this,ProfileActivity.class));
             }
         });
