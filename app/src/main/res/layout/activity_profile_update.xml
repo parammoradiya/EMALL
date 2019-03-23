@@ -18,26 +18,43 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtprofile_update_name"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/profile_update_name"
+        android:layout_below="@+id/txtprofile_update_name"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtprofile_update_contact"
         android:text="contact"
-        android:layout_below="@+id/txtprofile_update_name"/>
+        android:layout_below="@+id/profile_update_name"/>
 
-    <TextView
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/profile_update_contact"
+        android:layout_below="@+id/txtprofile_update_contact"/>
+
+    <!--<TextView
         android:text="email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtprofile_update_email"
-        android:layout_below="@id/txtprofile_update_contact"/>
+        android:layout_below="@id/profile_update_contact"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:id="@+id/profile_update_email"
+        android:layout_below="@+id/txtprofile_update_email"/>-->
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SUBMIT"
         android:id="@+id/profile_update_submit"
-        android:layout_below="@+id/txtprofile_update_email"/>
-
+        android:layout_below="@+id/profile_update_contact"/>
 
 </RelativeLayout>

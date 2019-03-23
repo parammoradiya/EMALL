@@ -21,6 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Toolbar OToolbar;
     TextView tpname,tpcontact,tpemail,tpnameedit,tpcontactedit;
     Button tpresetpass;
+    String name,contcat,email;
 
     private DatabaseReference mUserdatabase;
     private FirebaseUser mCurrentuser;
@@ -50,9 +51,9 @@ public class ProfileActivity extends AppCompatActivity {
         mUserdatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("Name").getValue().toString();
-                String contcat = dataSnapshot.child("Contact_no").getValue().toString();
-                String email = dataSnapshot.child("Email").getValue().toString();
+                name = dataSnapshot.child("Name").getValue().toString();
+                contcat = dataSnapshot.child("Contact_no").getValue().toString();
+                email = dataSnapshot.child("Email").getValue().toString();
 
                 tpname.setText(name);
                 tpcontact.setText(contcat);
@@ -67,7 +68,12 @@ public class ProfileActivity extends AppCompatActivity {
         tpcontactedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,ProfileUpdateActivity.class));
+                Intent i = new Intent(ProfileActivity.this,ProfileUpdateActivity.class);
+                i.putExtra("name",name);
+                i.putExtra("contact",contcat);
+                i.putExtra("email",email);
+                startActivity(i);
+                //startActivity(new Intent(ProfileActivity.this,ProfileUpdateActivity.class));
             }
         });
 
