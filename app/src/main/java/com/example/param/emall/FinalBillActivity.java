@@ -22,6 +22,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,7 +44,6 @@ public class FinalBillActivity extends AppCompatActivity {
         setContentView(R.layout.activity_final_bill);
         btnCreate = (Button)findViewById(R.id.create);
         text =(TextView) findViewById(R.id.text1);
-
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +85,7 @@ public class FinalBillActivity extends AppCompatActivity {
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 150, 0 , null);
-        canvas.drawText("Bill:-"+count1, 40, 170, paint);
+        canvas.drawText("Bill:-"+checksum.orderId, 40, 170, paint);
         canvas.drawText("Cutomer Id:-"+checksum.custid, 40, 190, paint);
         canvas.drawText("Products :-"+count1+" "+"Qty:-"+count1, 40, 210, paint);
         canvas.drawText("Total:-"+checksum.total, 40, 230, paint);

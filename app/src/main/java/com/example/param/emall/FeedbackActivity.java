@@ -12,14 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 public class FeedbackActivity extends AppCompatActivity {
 
+    DatabaseReference FeedBackMsg;
     private Toolbar OToolbar;
     private EditText OSubjectEdittext,OMessageEdittext;
     private Button OEmailSubmitButton;
     String[] to = {"milanmiyani11@gmail.com","parammoradiya98@gmail.com"
-            ,"akashgolakiya501@gmail.com","rajnigujarati567@gmail.com",
-            "jaimiknavadiya@gmail.com"};
+            ,"akashgolakiya501@gmail.com","rajnigujarati567@gmail.com"};
     ProgressDialog OFeedbackProgressDialog;
 
     @Override
@@ -37,6 +44,9 @@ public class FeedbackActivity extends AppCompatActivity {
         setSupportActionBar(OToolbar);
         getSupportActionBar().setTitle("FEEDBACK");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = Current_user.getUid();
+        FeedBackMsg = FirebaseDatabase.getInstance().getReference().child("User FeedBack").child(uid);
 
         OEmailSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +74,13 @@ public class FeedbackActivity extends AppCompatActivity {
 
                         email.setType("message/rfc822");
 
+                        HashMap<String,String> msg = new HashMap<>();
+                        msg.put("Email","milanmiyani11@gmail.com");
+                        msg.put("Subject",subject);
+                        msg.put("message",message);
+
                         startActivity(Intent.createChooser(email, "Choose an Email client :"));
+                        FeedBackMsg.setValue(msg);
                     }}
                 else {
                     OFeedbackProgressDialog.dismiss();

@@ -63,6 +63,7 @@ public class CartItemConfirmActivity extends AppCompatActivity {
                     cartactivitymodel ca = dataSnapshot1.getValue(cartactivitymodel.class);
                     mlist.add(ca);
                 }
+                CartAdapter.amount = 0;
                 madapter = new CartAdapter(CartItemConfirmActivity.this, mlist);
                 mrecyclerview.setAdapter(madapter);
             }
@@ -72,13 +73,13 @@ public class CartItemConfirmActivity extends AppCompatActivity {
             }
         });
 
-        final String totalp  = String.valueOf(CartAdapter.amount);
-       txt_amount.setText("Total Amount : " +  totalp);
+       txt_amount.setText("Total Amount : " +  CartAdapter.amount);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CartAdapter.amount = 0;
+                Log.v("Back >>>",String.valueOf(CartAdapter.amount));
                 startActivity(new Intent(CartItemConfirmActivity.this,CartActivity.class));
 
             }

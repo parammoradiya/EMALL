@@ -11,6 +11,11 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/profiletab"
+            android:icon="@drawable/ic_person"
+            android:title="Profile" />
+
+        <item
             android:id="@+id/carttab"
             android:icon="@drawable/ic_shopping_cart"
             android:title="Cart" />

@@ -30,13 +30,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity {
-    DatabaseReference reference, myRef;
+
+    DatabaseReference reference, myRef,lastSeen;
     FirebaseAuth firebaseAuth;
     private int REQUEST = 100;
+    private Date time;
     static int Total;
     HashMap<String,String> cart;
     boolean flag = false;
@@ -44,8 +48,9 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout mDrawerlayout;
     private ActionBarDrawerToggle mToggle;
     private ElegantNumberButton mnumberbutten;
-    TextView quantityTextView,txtData;
+    static TextView quantityTextView,txtData;
     int quantity = 1;
+    static String dateString,timeString;
     String codeSacn;
     public int totalQty;
     String qty="1";
@@ -57,7 +62,8 @@ public class HomeActivity extends AppCompatActivity {
     private static final int MY_CAMERA_REQUEST_CODE = 100,MY_STORAGE_REQUEST_CODE = 200;
     public static ArrayList<String> m_product_list = new ArrayList<>();
     public static ArrayAdapter<String> arrayAdapter;
-    Button btn_cart,Dec,Inc;
+    static Button btn_cart,Dec,Inc;
+    public static TextView infoqty;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -65,12 +71,21 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        infoqty = (TextView)findViewById(R.id.infoqty);
+
         txtData = (TextView)findViewById(R.id.product_code);
         mDrawerlayout = (DrawerLayout) findViewById(R.id.activity_home_drawer);
         mToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
         mDrawerlayout.addDrawerListener(mToggle);
         mToggle.syncState();
         cart = new HashMap<>();
+        time = new Date();
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat timeonly = new SimpleDateFormat("hh:mm:ss");
+        dateString = sdf.format(date);
+        timeString = timeonly.format(date);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initNavigationDrawer();
@@ -84,6 +99,11 @@ public class HomeActivity extends AppCompatActivity {
         quantityTextView.setText("1");
         String uid = Current_user.getUid();
         reference = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");
+        lastSeen = FirebaseDatabase.getInstance().getReference().child("All User").child(uid).child("Last Seen");
+
+        HashMap<String,String> lastLogin = new HashMap<>();
+        lastLogin.put("Last seen Date",dateString);
+        lastLogin.put("Last Seen Time",timeString);
 
         Firebase.setAndroidContext(this);
         m_ref = new Firebase("https://emall-57850.firebaseio.com//productDetails");
@@ -93,7 +113,9 @@ public class HomeActivity extends AppCompatActivity {
         Inc.setVisibility(View.INVISIBLE);
         Dec.setVisibility(View.INVISIBLE);
         quantityTextView.setVisibility(View.INVISIBLE);
+        infoqty.setVisibility(View.INVISIBLE);
         //HomeActivity.arrayAdapter.clear();
+        lastSeen.setValue(lastLogin);
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_product_list);
         m_listView.setAdapter(arrayAdapter);
 
@@ -145,6 +167,7 @@ public class HomeActivity extends AppCompatActivity {
                             Inc.setVisibility(View.INVISIBLE);
                             Dec.setVisibility(View.INVISIBLE);
                             quantityTextView.setVisibility(View.INVISIBLE);
+                            infoqty.setVisibility(View.INVISIBLE);
                             Toast.makeText(HomeActivity.this, "Product is not Found", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -152,6 +175,7 @@ public class HomeActivity extends AppCompatActivity {
                         Inc.setVisibility(View.INVISIBLE);
                         Dec.setVisibility(View.INVISIBLE);
                         quantityTextView.setVisibility(View.INVISIBLE);
+                        infoqty.setVisibility(View.INVISIBLE);
                         Toast.makeText(HomeActivity.this, "Product is not Found", Toast.LENGTH_SHORT).show();
                     }
 
@@ -159,6 +183,7 @@ public class HomeActivity extends AppCompatActivity {
                     Inc.setVisibility(View.INVISIBLE);
                     Dec.setVisibility(View.INVISIBLE);
                     quantityTextView.setVisibility(View.INVISIBLE);
+                    infoqty.setVisibility(View.INVISIBLE);
                     Toast.makeText(HomeActivity.this, "Value is not selected", Toast.LENGTH_SHORT).show();
                 }
 
@@ -186,6 +211,7 @@ public class HomeActivity extends AppCompatActivity {
                 Dec.setVisibility(View.VISIBLE);
                 Inc.setVisibility(View.VISIBLE);
                 quantityTextView.setVisibility(View.VISIBLE);
+                infoqty.setVisibility(View.VISIBLE);
             }
         });
 
@@ -255,6 +281,10 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     case R.id.carttab: {
                         startActivity(new Intent(HomeActivity.this, CartActivity.class));
+                        break;
+                    }
+                    case R.id.profiletab: {
+                        startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
                         break;
                     }
                 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <include
+        android:id="@+id/Profile_toolbar"
+        layout="@layout/app_bar_layout"></include>
+
+    <TextView
+        android:layout_below="@id/Profile_toolbar"
+        android:layout_width="wrap_content"
+        android:text="name"
+        android:layout_height="wrap_content"
+        android:id="@+id/profilename"/>
+
+    <TextView
+        android:id="@+id/nameedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_below="@+id/Profile_toolbar"
+        android:layout_toRightOf="@id/profilename"
+        android:text="edit" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/profilecontact"
+        android:text="contact"
+        android:layout_below="@+id/profilename"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_below="@+id/nameedit"
+        android:id="@+id/contactedit"
+        android:layout_toRightOf="@id/profilecontact"
+        android:text="edit" />
+
+    <TextView
+        android:text="email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/profileemail"
+        android:layout_below="@id/profilecontact"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RESET PASSWORD"
+        android:id="@+id/profile_reset_password"
+        android:layout_below="@+id/profileemail"/>
+
+</RelativeLayout>

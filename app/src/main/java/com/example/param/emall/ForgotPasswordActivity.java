@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +35,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         OToolbar = (Toolbar) findViewById(R.id.ForgotPassword_toolbar);
 
+        Intent i = new Intent();
+        Bundle bundle = getIntent().getExtras();
+        String header = bundle.getString("Header");
         setSupportActionBar(OToolbar);
-        getSupportActionBar().setTitle("Forgot Password");
+        getSupportActionBar().setTitle(header);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         OForgotProcessDialog = new ProgressDialog(this);

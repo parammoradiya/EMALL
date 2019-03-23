@@ -16,7 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CartItemConfirmActivity"></activity>
+        <activity android:name=".ProfileUpdateActivity"></activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:parentActivityName=".HomeActivity" />
+        <activity android:name=".CartItemConfirmActivity" />
         <activity android:name=".FinalBillActivity" />
         <activity android:name=".Payment" />
         <activity
@@ -31,6 +35,7 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
+        <activity android:name=".VerifyData" />
         <activity
             android:name=".HomeActivity"
             android:theme="@style/AppTheme1" />

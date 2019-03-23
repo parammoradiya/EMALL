@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -98,7 +99,10 @@ public class LoginActivity extends AppCompatActivity {
         OForgot_Password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
+                Intent i = new Intent(LoginActivity.this,ForgotPasswordActivity.class);
+                i.putExtra("Header","FORGOT PASSWORD");
+                startActivity(i);
+                // startActivity(new Intent(LoginActivity.this,ForgotPasswordActivity.class));
                 finish();
             }
         });

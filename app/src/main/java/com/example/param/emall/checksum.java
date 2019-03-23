@@ -19,9 +19,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class checksum extends AppCompatActivity implements PaytmPaymentTransactionCallback {
 
+    static String status;
     static String total ="";
     static String custid = "111111111111", orderId="", mid="";
 
@@ -32,18 +34,19 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         //initOrderId();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        UUID uuid  = UUID.randomUUID();
+
         Intent intent = getIntent();
         //orderId = intent.getExtras().getString("orderid");
-        orderId = String.valueOf(CartActivity.count);
+        orderId = String.valueOf(uuid);
         custid = String.valueOf(custid);
         //custid = intent.getExtras().getString("custid");
         total = String.valueOf(CartAdapter.amount);
+        Log.v("TOTAl >>> ",String.valueOf(CartAdapter.amount));
         CartAdapter.amount =0;
         mid = "PZbWtu87676061075527"; /// your marchant key
         sendUserDetailTOServerdd dl = new sendUserDetailTOServerdd();
         dl.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-
     }
 
 
@@ -133,15 +136,21 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
     public void onTransactionResponse(Bundle bundle) {
         Log.e("checksum ", " respon true " + bundle.toString());
         Toast.makeText(checksum.this,"Payment Successfull",Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(checksum.this,FinalBillActivity.class);
+        status = "Success";
+
+        //Intent i = new Intent(checksum.this,FinalBillActivity.class);
+        startActivity(new Intent(checksum.this,VerifyData.class));
        /* i.putExtra("CustomerID",custid);
         i.putExtra("Total",total);*/
-        startActivity(i);
+       // startActivity(i);
         finish();
     }
 
     @Override
     public void networkNotAvailable() {
+        Toast.makeText(getApplicationContext(),"Network is not Available",Toast.LENGTH_SHORT).show();
+        status = "Pending";
+        startActivity(new Intent(checksum.this,VerifyData.class));
 
     }
 
@@ -158,20 +167,26 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
     @Override
     public void onErrorLoadingWebPage(int i, String s, String s1) {
         Log.e("checksum ", " error loading pagerespon true "+ s + "  s1 " + s1);
+        status = "Failed";
+        startActivity(new Intent(checksum.this,VerifyData.class));
 
     }
 
     @Override
     public void onBackPressedCancelTransaction() {
         Log.e("checksum ", " cancel call back respon  " );
-        startActivity(new Intent(checksum.this,CartActivity.class));
+        //startActivity(new Intent(checksum.this,CartActivity.class));
+        startActivity(new Intent(checksum.this,VerifyData.class));
+        status = "Failed";
     }
 
     @Override
     public void onTransactionCancel(String s, Bundle bundle) {
         Log.e("checksum ", "  transaction cancel " );
         Toast.makeText(checksum.this,"Transaction Cancel...",Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(checksum.this,CartActivity.class));
+        //startActivity(new Intent(checksum.this,CartActivity.class));
+        startActivity(new Intent(checksum.this,VerifyData.class));
+        status = "Failed";
 
     }
 }

@@ -22,11 +22,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private DatabaseReference ODatabase;
+    private DatabaseReference ODatabase,AdminData;
     FirebaseAuth firebaseAuth;
     EditText OUser_Name,OUser_Email,OUser_Contact,OUser_Password;
     Button OSignUpbtn;
@@ -188,21 +190,28 @@ public class SignUpActivity extends AppCompatActivity {
 
         ODatabase = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
         //mDatabase1 = FirebaseDatabase.getInstance().getReference().child("reportmsg").child(uid);
-
+        AdminData = FirebaseDatabase.getInstance().getReference().child("All User").child(uid);
         String name =OUser_Name.getText().toString();
         String email = OUser_Email.getText().toString();
         String contact_no = OUser_Contact.getText().toString();
+
         HashMap<String, String> userMap = new HashMap<>();
         userMap.put("Name", name);
         userMap.put("Email", email);
         userMap.put("Contact_no", contact_no);
-        userMap.put("text", contact_no);
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat timeonly = new SimpleDateFormat("hh:mm");
+        String dateString = sdf.format(date);
+        String timeString = timeonly.format(date);
 
         HashMap<String, String> userMap1 = new HashMap<>();
         userMap1.put("name", name);
         userMap1.put("email", email);
-
+        userMap1.put("Date",dateString);
+        userMap1.put("Time",timeString);
         ODatabase.setValue(userMap);
         //mDatabase1.setValue(userMap1);
+        AdminData.setValue(userMap1);
     }
 }

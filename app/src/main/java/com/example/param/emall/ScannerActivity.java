@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -86,6 +87,10 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     //HomeActivity.m_product_list.add("Product Name: " + "Not Found");
                     //HomeActivity.m_product_list.add("Product Price: " + "Not found");
                     Toast.makeText(ScannerActivity.this,"Product is not found!!!",Toast.LENGTH_LONG).show();
+                    HomeActivity.Inc.setVisibility(View.INVISIBLE);
+                    HomeActivity.Dec.setVisibility(View.INVISIBLE);
+                    HomeActivity.quantityTextView.setVisibility(View.INVISIBLE);
+                    HomeActivity.infoqty.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -102,6 +107,10 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     protected void onPause() {
         super.onPause();
         scannerView.stopCamera();
+        HomeActivity.Inc.setVisibility(View.INVISIBLE);
+        HomeActivity.Dec.setVisibility(View.INVISIBLE);
+        HomeActivity.quantityTextView.setVisibility(View.INVISIBLE);
+        HomeActivity.infoqty.setVisibility(View.INVISIBLE);
     }
 
     @Override

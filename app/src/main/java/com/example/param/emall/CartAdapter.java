@@ -3,6 +3,7 @@ package com.example.param.emall;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,11 @@ import android.widget.TextView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
-
+   static HashMap<String,String> allItem = new HashMap<>();
     Context context;
     static int amount =0;
     ArrayList<cartactivitymodel> cartactivitymodels;
@@ -37,10 +39,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         cartViewHolder.pname.setText(cartactivitymodels.get(i).getName());
         cartViewHolder.pprice.setText(cartactivitymodels.get(i).getPrice());
         cartViewHolder.pqty.setText(cartactivitymodels.get(i).getQty());
-
+        allItem.put("Item "+i,cartactivitymodels.get(i).getName());
+        allItem.put("Price "+i,cartactivitymodels.get(i).getPrice());
+        allItem.put("qty "+i,cartactivitymodels.get(i).getQty());
         qty[i] = Integer.parseInt(cartactivitymodels.get(i).getQty());
         pri[i] = Integer.parseInt(cartactivitymodels.get(i).getPrice());
         amount = amount + (qty[i] * pri[i]);
+        Log.v("PRICE >>>",String.valueOf(amount));
         //cartViewHolder.ptotalprice.setText(amount);
     }
 
