@@ -107,10 +107,6 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     protected void onPause() {
         super.onPause();
         scannerView.stopCamera();
-        HomeActivity.Inc.setVisibility(View.INVISIBLE);
-        HomeActivity.Dec.setVisibility(View.INVISIBLE);
-        HomeActivity.quantityTextView.setVisibility(View.INVISIBLE);
-        HomeActivity.infoqty.setVisibility(View.INVISIBLE);
     }
 
     @Override

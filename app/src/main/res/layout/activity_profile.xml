@@ -11,49 +11,118 @@
         layout="@layout/app_bar_layout"></include>
 
     <TextView
-        android:layout_below="@id/Profile_toolbar"
+        android:id="@+id/txtname"
         android:layout_width="wrap_content"
-        android:text="name"
         android:layout_height="wrap_content"
-        android:id="@+id/profilename"/>
+        android:layout_below="@id/Profile_toolbar"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="NAME"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/nameedit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:layout_below="@+id/Profile_toolbar"
-        android:layout_toRightOf="@id/profilename"
-        android:text="edit" />
+        android:layout_below="@id/Profile_toolbar"
+        android:layout_marginStart="125dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/txtname"
+        android:text="EDIT"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/linearp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtname">
+
+        <TextView
+            android:id="@+id/profilename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textColor="@color/black"
+            android:text="Name"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
 
     <TextView
+        android:id="@+id/txtmobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/profilecontact"
-        android:text="contact"
-        android:layout_below="@+id/profilename"/>
+        android:layout_below="@+id/linearp"
+        android:layout_margin="15dp"
+        android:text="MOBILE"
+        android:textSize="16sp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_below="@+id/nameedit"
         android:id="@+id/contactedit"
-        android:layout_toRightOf="@id/profilecontact"
-        android:text="edit" />
-
-    <TextView
-        android:text="email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/profileemail"
-        android:layout_below="@id/profilecontact"/>
+        android:layout_below="@+id/linearp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/txtmobile"
+        android:text="EDIT"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/linearm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtmobile">
+
+        <TextView
+            android:id="@+id/profilecontact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Mobile"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txtemail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearm"
+        android:layout_margin="15dp"
+        android:text="EMAIL"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/lineare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtemail">
+
+        <TextView
+            android:id="@+id/profileemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearm"
+            android:layout_margin="15dp"
+            android:text="Email"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
     <Button
+        android:id="@+id/profile_reset_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RESET PASSWORD"
-        android:id="@+id/profile_reset_password"
-        android:layout_below="@+id/profileemail"/>
+        android:layout_below="@+id/lineare"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:text="RESET PASSWORD" />
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,30 +11,38 @@
         layout="@layout/app_bar_layout"></include>
 
     <TextView
-        android:layout_below="@id/Profile_Update_toolbar"
+        android:id="@+id/txtprofile_update_name"
         android:layout_width="wrap_content"
-        android:text="name"
         android:layout_height="wrap_content"
-        android:id="@+id/txtprofile_update_name"/>
+        android:layout_below="@id/Profile_Update_toolbar"
+        android:layout_margin="15dp"
+        android:text="NAME"
+        android:textSize="16sp" />
 
     <EditText
+        android:id="@+id/profile_update_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/profile_update_name"
-        android:layout_below="@+id/txtprofile_update_name"/>
+        android:layout_below="@+id/txtprofile_update_name"
+        android:layout_margin="12dp"
+        android:layout_marginRight="10dp" />
 
     <TextView
+        android:id="@+id/txtprofile_update_contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txtprofile_update_contact"
+        android:layout_below="@+id/profile_update_name"
+        android:layout_margin="15dp"
         android:text="contact"
-        android:layout_below="@+id/profile_update_name"/>
+        android:textSize="16sp" />
 
     <EditText
+        android:id="@+id/profile_update_contact"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/profile_update_contact"
-        android:layout_below="@+id/txtprofile_update_contact"/>
+        android:layout_below="@+id/txtprofile_update_contact"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <!--<TextView
         android:text="email"
@@ -51,10 +58,12 @@
         android:layout_below="@+id/txtprofile_update_email"/>-->
 
     <Button
+        android:id="@+id/profile_update_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SUBMIT"
-        android:id="@+id/profile_update_submit"
-        android:layout_below="@+id/profile_update_contact"/>
+        android:layout_below="@+id/profile_update_contact"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:text="SUBMIT" />
 
 </RelativeLayout>

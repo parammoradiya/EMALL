@@ -73,14 +73,18 @@ public class ProfileActivity extends AppCompatActivity {
                 i.putExtra("contact",contcat);
                 i.putExtra("email",email);
                 startActivity(i);
-                //startActivity(new Intent(ProfileActivity.this,ProfileUpdateActivity.class));
             }
         });
 
         tpnameedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,ProfileUpdateActivity.class));
+                Intent i = new Intent(ProfileActivity.this,ProfileUpdateActivity.class);
+                i.putExtra("name",name);
+                i.putExtra("contact",contcat);
+                i.putExtra("email",email);
+                startActivity(i);
+                //startActivity(new Intent(ProfileActivity.this,ProfileUpdateActivity.class));
             }
         });
 

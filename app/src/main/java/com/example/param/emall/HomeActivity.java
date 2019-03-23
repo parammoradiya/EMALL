@@ -1,6 +1,7 @@
 package com.example.param.emall;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -115,7 +117,9 @@ public class HomeActivity extends AppCompatActivity {
         quantityTextView.setVisibility(View.INVISIBLE);
         infoqty.setVisibility(View.INVISIBLE);
         //HomeActivity.arrayAdapter.clear();
+
         lastSeen.setValue(lastLogin);
+
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_product_list);
         m_listView.setAdapter(arrayAdapter);
 

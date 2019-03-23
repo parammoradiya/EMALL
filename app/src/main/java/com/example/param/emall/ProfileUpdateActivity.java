@@ -14,7 +14,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+
+import static com.example.param.emall.HomeActivity.dateString;
+import static com.example.param.emall.HomeActivity.timeString;
 
 public class ProfileUpdateActivity extends AppCompatActivity {
 
@@ -23,7 +28,8 @@ public class ProfileUpdateActivity extends AppCompatActivity {
     Button resetdata;
     String updateName, updateContact;
     String name,contact,email;
-    DatabaseReference updateData,updateAdminUserData;
+    DatabaseReference updateData,updateAdminUserData,lastSeen;
+    private Date time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +45,20 @@ public class ProfileUpdateActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("PROFILE UPDATE");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        time = new Date();
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat timeonly = new SimpleDateFormat("hh:mm:ss");
+        dateString = sdf.format(date);
+        timeString = timeonly.format(date);
+
         FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = Current_user.getUid();
         updateData = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
         updateAdminUserData = FirebaseDatabase.getInstance().getReference().child("All User").child(uid);
+        lastSeen = FirebaseDatabase.getInstance().getReference().child("All User").child(uid).child("Last Seen");
+
+
         Intent i = new Intent();
         Bundle bundle = getIntent().getExtras();
          name = bundle.getString("name");
@@ -63,8 +79,17 @@ public class ProfileUpdateActivity extends AppCompatActivity {
                 updateUser.put("Contact_no", updateContact);
                 updateUser.put("Email",email);
                 Log.v("Userdata",updateUser.toString());
+
                 updateData.setValue(updateUser);
                 updateAdminUserData.setValue(updateUser);
+
+                HashMap<String, String> lastlogin = new HashMap<>();
+                lastlogin.put("Last seen Date",dateString);
+                lastlogin.put("Last Seen Time",timeString);
+                lastSeen.setValue(lastlogin);
+
+
+                startActivity(new Intent(ProfileUpdateActivity.this,ProfileActivity.class));
             }
         });
     }
