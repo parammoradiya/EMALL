@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -75,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
 
         infoqty = (TextView)findViewById(R.id.infoqty);
 
-        txtData = (TextView)findViewById(R.id.product_code);
+        //txtData = (TextView)findViewById(R.id.product_code);
         mDrawerlayout = (DrawerLayout) findViewById(R.id.activity_home_drawer);
         mToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
         mDrawerlayout.addDrawerListener(mToggle);
@@ -94,7 +95,7 @@ public class HomeActivity extends AppCompatActivity {
 
         btn_scanner = (Button) findViewById(R.id.btn_scanner);
         addtocartbtn = (Button) findViewById(R.id.addtocartbtn);
-        result_text = (TextView) findViewById(R.id.product_code);
+        //result_text = (TextView) findViewById(R.id.product_code);
         FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
         // DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
         quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
@@ -260,6 +261,27 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logged_in_user, menu);
+        return true;
+    }*/
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item1) {
+        int id = item1.getItemId();
+        *//*if (id == R.id.action_open) {
+            showPictureDialog();
+            Log.v("HII", "action open");
+            return true;
+        }*//*
+        if(id == R.id.action_open)
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item1);
+    }*/
+
     public void initNavigationDrawer() {
         NavigationView mnavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mnavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -291,6 +313,10 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
                         break;
                     }
+                    /*case  R.id.action_open_cart:{
+                        startActivity(new Intent(HomeActivity.this, CartActivity.class));
+                        break;
+                    }*/
                 }
                 return true;
             }

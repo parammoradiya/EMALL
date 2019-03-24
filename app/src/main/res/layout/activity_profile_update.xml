@@ -42,6 +42,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/txtprofile_update_contact"
         android:layout_marginLeft="10dp"
+        android:maxLength="10"
         android:layout_marginRight="10dp" />
 
     <!--<TextView

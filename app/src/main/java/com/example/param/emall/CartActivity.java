@@ -111,6 +111,7 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(CartActivity.this, CartItemConfirmActivity.class);
                 startActivity(i);
+
             }
         });
 

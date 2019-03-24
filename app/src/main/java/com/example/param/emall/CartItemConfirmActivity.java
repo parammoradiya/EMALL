@@ -2,6 +2,7 @@ package com.example.param.emall;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -81,14 +82,20 @@ public class CartItemConfirmActivity extends AppCompatActivity {
                 CartAdapter.amount = 0;
                 Log.v("Back >>>",String.valueOf(CartAdapter.amount));
                 startActivity(new Intent(CartItemConfirmActivity.this,CartActivity.class));
-
+                finish();
             }
         });
 
         paybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CartItemConfirmActivity.this,checksum.class));
+                if(CheckNetwork.isInternetAvailable(CartItemConfirmActivity.this)) {
+                    startActivity(new Intent(CartItemConfirmActivity.this, checksum.class));
+                    finish();
+                }else {
+                    Snackbar snackbar = Snackbar.make(paybtn, "No Internet Connection", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         });
 

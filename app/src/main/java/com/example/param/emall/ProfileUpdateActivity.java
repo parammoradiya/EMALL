@@ -1,5 +1,6 @@
 package com.example.param.emall;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class ProfileUpdateActivity extends AppCompatActivity {
     String name,contact,email;
     DatabaseReference updateData,updateAdminUserData,lastSeen;
     private Date time;
+    private ProgressDialog ORegprogress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class ProfileUpdateActivity extends AppCompatActivity {
         econtact = (EditText) findViewById(R.id.profile_update_contact);
         resetdata = (Button) findViewById(R.id.profile_update_submit);
 
+        ORegprogress = new ProgressDialog(this);
         OToolbar = (Toolbar) findViewById(R.id.Profile_Update_toolbar);
         setSupportActionBar(OToolbar);
         getSupportActionBar().setTitle("PROFILE UPDATE");
@@ -64,9 +67,10 @@ public class ProfileUpdateActivity extends AppCompatActivity {
          name = bundle.getString("name");
          contact = bundle.getString("contact");
         email = bundle.getString("email");
-        Log.v("Email",email);
+       // Log.v("Email",email);
         ename.setText(name);
         econtact.setText(contact);
+
 
 
         resetdata.setOnClickListener(new View.OnClickListener() {
@@ -74,22 +78,60 @@ public class ProfileUpdateActivity extends AppCompatActivity {
             public void onClick(View v) {
                 updateName = ename.getText().toString();
                 updateContact = econtact.getText().toString();
-                HashMap<String, String> updateUser = new HashMap<>();
-                updateUser.put("Name", updateName);
-                updateUser.put("Contact_no", updateContact);
-                updateUser.put("Email",email);
-                Log.v("Userdata",updateUser.toString());
 
-                updateData.setValue(updateUser);
-                updateAdminUserData.setValue(updateUser);
+                if (!validate_phone(updateContact) | !validate_name(updateName) ) {
+                    return;
+                }else {
+                    ORegprogress.setMessage("Wait Updating...");
+                    ORegprogress.setCanceledOnTouchOutside(false);
+                    ORegprogress.show();
 
-                HashMap<String, String> lastlogin = new HashMap<>();
-                lastlogin.put("Last seen Date",dateString);
-                lastlogin.put("Last Seen Time",timeString);
-                lastSeen.setValue(lastlogin);
+                    HashMap<String, String> updateUser = new HashMap<>();
+                    updateUser.put("Name", updateName);
+                    updateUser.put("Contact_no", updateContact);
+                    updateUser.put("Email", email);
+                    Log.v("Userdata", updateUser.toString());
 
-                startActivity(new Intent(ProfileUpdateActivity.this,ProfileActivity.class));
+                    updateData.setValue(updateUser);
+                    updateAdminUserData.setValue(updateUser);
+
+                    HashMap<String, String> lastlogin = new HashMap<>();
+                    lastlogin.put("Last seen Date", dateString);
+                    lastlogin.put("Last Seen Time", timeString);
+                    lastSeen.setValue(lastlogin);
+
+                    ORegprogress.dismiss();
+                    startActivity(new Intent(ProfileUpdateActivity.this, ProfileActivity.class));
+                    finish();
+                }
             }
         });
+    }
+
+    public boolean validate_phone(String s) {
+        //String Contact = econtact.getText().toString();
+        if (s.isEmpty()) {
+            ORegprogress.dismiss();
+            econtact.setError("Phone number required");
+            return false;
+        } else if (s.length() > 10 | s.length() < 10) {
+            ORegprogress.dismiss();
+            econtact.setError("Length is not valid");
+            return false;
+        } else {
+            econtact.setError(null);
+            return true;
+        }
+    }
+
+    public boolean validate_name(String s) {
+        if (s.isEmpty()) {
+            ORegprogress.dismiss();
+            ename.setError("name is required");
+            return false;
+        } else {
+            ename.setError(null);
+            return true;
+        }
     }
 }
