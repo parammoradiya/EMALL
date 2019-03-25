@@ -17,10 +17,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
    static HashMap<String,String> allItem = new HashMap<>();
     Context context;
-    static int amount =0;
+    static int amount =0,tqty = 0;
+    static String productname="";
     ArrayList<cartactivitymodel> cartactivitymodels;
     int[] qty = new int[20];
     int[] pri = new int[20];
+    String[] product = new String[50];
 
     public CartAdapter(Context c,ArrayList<cartactivitymodel> ca)
     {
@@ -42,11 +44,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         allItem.put("Item "+i,cartactivitymodels.get(i).getName());
         allItem.put("Price "+i,cartactivitymodels.get(i).getPrice());
         allItem.put("qty "+i,cartactivitymodels.get(i).getQty());
+
         qty[i] = Integer.parseInt(cartactivitymodels.get(i).getQty());
         pri[i] = Integer.parseInt(cartactivitymodels.get(i).getPrice());
+        product[i] = String.valueOf(cartactivitymodels.get(i).getName());
         amount = amount + (qty[i] * pri[i]);
-        Log.v("PRICE >>>",String.valueOf(amount));
-        //cartViewHolder.ptotalprice.setText(amount);
+        tqty = tqty + qty[i];
+        productname = productname + product[i] +"\n";
     }
 
     @Override

@@ -2,12 +2,14 @@ package com.example.param.emall;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.provider.Contacts;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.system.Os;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -34,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     Button OSignUpbtn;
     Toolbar OToolbar;
     private ProgressDialog ORegprogress;
-
+    String UID ,first,second;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Sign Up");
 
 
+
         OSignUpbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,8 +67,18 @@ public class SignUpActivity extends AppCompatActivity {
                     if (!validate_email(OUser_Email) | !validate_password() | !validate_phone(OUser_Contact) | !validation_name(OUser_Name)) {
                         return;
                     } else {
+
+                        UUID odid  = UUID.randomUUID();
+                        String[] parts = OUser_Email.getText().toString().split("@");
+                        first = "CS" + parts[0] + odid.toString().substring(0,6);
+                        second = parts[1];
+                        //UID = "CS" + OUser_Email.getText().toString().split("@");
+
+                        Log.v("userid",first);
+
                         ORegprogress.setMessage("we register your account");
                         ORegprogress.setCanceledOnTouchOutside(false);
+                        ORegprogress.show();
                         ORegprogress.show();
                         ORegprogress.setCanceledOnTouchOutside(false);
 
@@ -147,7 +161,6 @@ public class SignUpActivity extends AppCompatActivity {
             OUser_Email.setError(null);
             return true;
         }
-
     }
 
     public boolean validate_password() {
@@ -180,16 +193,15 @@ public class SignUpActivity extends AppCompatActivity {
     private void sendUserData()
     {
         ORegprogress.dismiss();
-        FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
+       FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
         // DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
 
-        String uid = Current_user.getUid();
+       String uid = Current_user.getUid();
 
         //userprofile user = new userprofile(mDisplayname.getText().toString(), mEmail.getText().toString());
         //myref.setValue(user);
 
         ODatabase = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
-        //mDatabase1 = FirebaseDatabase.getInstance().getReference().child("reportmsg").child(uid);
         AdminData = FirebaseDatabase.getInstance().getReference().child("All User").child(uid);
         String name =OUser_Name.getText().toString();
         String email = OUser_Email.getText().toString();

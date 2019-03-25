@@ -1,6 +1,7 @@
 package com.example.param.emall;
 
 public class cartactivitymodel {
+
     private String Name;
     private  String Price;
     // private  String contact_no;

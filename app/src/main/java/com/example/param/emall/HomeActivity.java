@@ -104,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");
         lastSeen = FirebaseDatabase.getInstance().getReference().child("All User").child(uid).child("Last Seen");
 
+        Log.v("uid",uid);
         HashMap<String,String> lastLogin = new HashMap<>();
         lastLogin.put("Last seen Date",dateString);
         lastLogin.put("Last Seen Time",timeString);
@@ -143,6 +144,7 @@ public class HomeActivity extends AppCompatActivity {
                             userMap.put("Price", price);
                             userMap.put("qty", qty);
                             myRef.setValue(userMap);
+
                             cart.put("Name", name);
                             cart.put("Price", price);
                             cart.put("qty", qty);

@@ -10,6 +10,8 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
@@ -17,6 +19,7 @@ import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -25,7 +28,7 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
 
     static String status;
     static String total ="";
-    static String custid = "111111111111", orderId="", mid="";
+    static String custid = "111111111", orderId="", mid="",first,second,third,fourth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +37,23 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         //initOrderId();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        UUID uuid  = UUID.randomUUID();
+        long date = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat timeonly = new SimpleDateFormat("hh:mm");
+        String dateString = sdf.format(date).toString();
+        String timeString = timeonly.format(date).toString();
+
+        UUID odid  = UUID.randomUUID();
+        String[] parts = odid.toString().split("-");
+        first = parts[0] ;
+        second = parts[1];
+        third = parts[2];
+        fourth = parts[3];
+        String oodid =  "OD" + first + second + third + fourth;
 
         Intent intent = getIntent();
         //orderId = intent.getExtras().getString("orderid");
-        orderId = String.valueOf(uuid);
+        orderId = String.valueOf(oodid);
         custid = String.valueOf(custid);
         //custid = intent.getExtras().getString("custid");
         total = String.valueOf(CartAdapter.amount);
@@ -169,7 +184,6 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         Log.e("checksum ", " error loading pagerespon true "+ s + "  s1 " + s1);
         status = "Failed";
         startActivity(new Intent(checksum.this,VerifyData.class));
-
     }
 
     @Override
@@ -187,6 +201,5 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         //startActivity(new Intent(checksum.this,CartActivity.class));
         startActivity(new Intent(checksum.this,VerifyData.class));
         status = "Failed";
-
     }
 }

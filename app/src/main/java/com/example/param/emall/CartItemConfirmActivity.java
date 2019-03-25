@@ -57,6 +57,7 @@ public class CartItemConfirmActivity extends AppCompatActivity {
         mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
         final String current_uid = mCurrentuser.getUid();
         mreference = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
+
         mreference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -65,6 +66,8 @@ public class CartItemConfirmActivity extends AppCompatActivity {
                     mlist.add(ca);
                 }
                 CartAdapter.amount = 0;
+                CartAdapter.tqty = 0;
+                CartAdapter.productname = "";
                 madapter = new CartAdapter(CartItemConfirmActivity.this, mlist);
                 mrecyclerview.setAdapter(madapter);
             }
@@ -74,12 +77,18 @@ public class CartItemConfirmActivity extends AppCompatActivity {
             }
         });
 
-       txt_amount.setText("Total Amount : " +  CartAdapter.amount);
+       txt_amount.setText("Total Amount : " +  CartAdapter.amount +
+               "\nTotal Quantity : " + CartAdapter.tqty +
+               "\nProducts : \n" + CartAdapter.productname  );
+
+
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CartAdapter.amount = 0;
+                CartAdapter.tqty = 0;
+                CartAdapter.productname = "";
                 Log.v("Back >>>",String.valueOf(CartAdapter.amount));
                 startActivity(new Intent(CartItemConfirmActivity.this,CartActivity.class));
                 finish();
