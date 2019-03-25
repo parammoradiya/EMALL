@@ -46,7 +46,9 @@ public class VerifyData extends AppCompatActivity {
             CartAdapter.allItem.put("Date",HomeActivity.dateString);
             CartAdapter.allItem.put("UserID",uid);
             Transaction.setValue(CartAdapter.allItem);
-            startActivity(new Intent(VerifyData.this,Payment.class));
+            startActivity(new Intent(VerifyData.this,CartActivity.class));
+            finish();
+
         }
         else if(checksum.status.equalsIgnoreCase("Failed")){
             Transaction = FirebaseDatabase.getInstance().getReference().child("All Transaction").child("Failed").child(checksum.orderId);
@@ -55,7 +57,8 @@ public class VerifyData extends AppCompatActivity {
             CartAdapter.allItem.put("Date",HomeActivity.dateString);
             CartAdapter.allItem.put("UserID",uid);
             Transaction.setValue(CartAdapter.allItem);
-            startActivity(new Intent(VerifyData.this,CartItemConfirmActivity.class));
+            startActivity(new Intent(VerifyData.this,CartActivity.class));
+            finish();
         }
     }
 }

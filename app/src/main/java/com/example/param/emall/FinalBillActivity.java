@@ -1,6 +1,8 @@
 package com.example.param.emall;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +12,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -38,19 +43,27 @@ public class FinalBillActivity extends AppCompatActivity {
     String count1;
     //int count=0;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_bill);
+
         btnCreate = (Button)findViewById(R.id.create);
         text =(TextView) findViewById(R.id.text1);
+
+
+
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
       //          count=count+1;
+
                 count1=String.valueOf(CartActivity.count);
                 createpdf1();
                 startActivity(new Intent(FinalBillActivity.this,HomeActivity.class));
+                finish();
             }
 
 
@@ -69,7 +82,7 @@ public class FinalBillActivity extends AppCompatActivity {
         int convertHighet = 200, convertWidth=300;
 
         Resources mResources = getResources();
-        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.mainlogo);
+        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.ic_facebookicon);
 
         PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(790, 1122, 1).create();
@@ -85,10 +98,12 @@ public class FinalBillActivity extends AppCompatActivity {
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 150, 0 , null);
-        canvas.drawText("Bill:-"+checksum.orderId, 40, 170, paint);
-        canvas.drawText("Cutomer Id:-"+checksum.custid, 40, 190, paint);
-        canvas.drawText("Products :-"+count1+" "+"Qty:-"+count1, 40, 210, paint);
-        canvas.drawText("Total:-"+checksum.total, 40, 230, paint);
+        canvas.drawText("Bill:- "+checksum.orderId, 40, 170, paint);
+        canvas.drawText("Cutomer Id:- " + checksum.custid, 40, 190, paint);
+        canvas.drawText("Date:- " + HomeActivity.dateString + "   Time:- " + HomeActivity.timeString, 40, 190, paint);
+        canvas.drawText("Products :- "+CartAdapter.productname+" "+"Qty:-"+CartAdapter.tqty, 40, 210, paint);
+        canvas.drawText("Qty:- " + CartAdapter.tqty, 40, 210, paint);
+        canvas.drawText("Total:- " + checksum.total, 40, 230, paint);
         document.finishPage(page);
 
         // write the document content
@@ -122,5 +137,7 @@ public class FinalBillActivity extends AppCompatActivity {
         // close the document
         document.close();
     }
+
+
 }
 

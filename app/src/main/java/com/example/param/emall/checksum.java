@@ -28,7 +28,9 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
 
     static String status;
     static String total ="";
-    static String custid = "111111111", orderId="", mid="",first,second,third,fourth;
+    static String orderId="", mid="",first,second,third,fourth;
+    static FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
+    static String custid = Current_user.getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +168,7 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         Toast.makeText(getApplicationContext(),"Network is not Available",Toast.LENGTH_SHORT).show();
         status = "Pending";
         startActivity(new Intent(checksum.this,VerifyData.class));
-
+        finish();
     }
 
     @Override
@@ -184,6 +186,7 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         Log.e("checksum ", " error loading pagerespon true "+ s + "  s1 " + s1);
         status = "Failed";
         startActivity(new Intent(checksum.this,VerifyData.class));
+        finish();
     }
 
     @Override
@@ -192,6 +195,7 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         //startActivity(new Intent(checksum.this,CartActivity.class));
         startActivity(new Intent(checksum.this,VerifyData.class));
         status = "Failed";
+        finish();
     }
 
     @Override
@@ -201,5 +205,6 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         //startActivity(new Intent(checksum.this,CartActivity.class));
         startActivity(new Intent(checksum.this,VerifyData.class));
         status = "Failed";
+        finish();
     }
 }

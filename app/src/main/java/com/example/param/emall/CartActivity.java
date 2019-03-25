@@ -1,7 +1,12 @@
 package com.example.param.emall;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -34,6 +39,7 @@ import java.util.HashMap;
 
 public class CartActivity extends AppCompatActivity {
 
+    private static final int MY_STORAGE_REQUEST_CODE = 200;
     Button btn_payment;
     private Toolbar OToolbar;
     private ListView mlistview;
@@ -56,12 +62,13 @@ public class CartActivity extends AppCompatActivity {
     private String orderid;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        txt_amount = (TextView)findViewById(R.id.txt_amount);
+        txt_amount = (TextView) findViewById(R.id.txt_amount);
         btn_payment = (Button) findViewById(R.id.payment);
         //mlistview = (ListView) findViewById(R.id.cart_list);
         //mcartdelete = (Button)findViewById(R.id.cartdelete);
@@ -76,6 +83,12 @@ public class CartActivity extends AppCompatActivity {
         mrecyclerview.setLayoutManager(new LinearLayoutManager(this));
         mlist = new ArrayList<cartactivitymodel>();
 
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_STORAGE_REQUEST_CODE);
+        }
+
         mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
         final String current_uid = mCurrentuser.getUid();
         mreference = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
@@ -89,6 +102,7 @@ public class CartActivity extends AppCompatActivity {
                 madapter = new CartAdapter(CartActivity.this, mlist);
                 mrecyclerview.setAdapter(madapter);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(CartActivity.this, "failed to load cart data!!", Toast.LENGTH_LONG).show();
@@ -114,7 +128,19 @@ public class CartActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_STORAGE_REQUEST_CODE)
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(CartActivity.this, "storage permission granted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(CartActivity.this, "storage permission denied", Toast.LENGTH_LONG).show();
+            }
+    }
         /*adapter = new FirebaseListAdapter(options) {
             @Override
             protected void populateView(View v, Object model, int position) {
@@ -215,7 +241,7 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         });*/
-    }
+
 
 
     /*@Override

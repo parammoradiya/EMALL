@@ -198,17 +198,13 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         /*btn_cart=(Button)findViewById(R.id.btn_cart);*/
-        if (checkSelfPermission(android.Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     MY_CAMERA_REQUEST_CODE);
         }
-        /*if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                   MY_STORAGE_REQUEST_CODE);
-        }
-*/
+
+
+
         btn_scanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,6 +249,7 @@ public class HomeActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(HomeActivity.this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
+
     }
 
     @Override
