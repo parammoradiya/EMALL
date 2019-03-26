@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -52,22 +53,24 @@ public class FinalBillActivity extends AppCompatActivity {
         btnCreate = (Button)findViewById(R.id.create);
         text =(TextView) findViewById(R.id.text1);
 
+        count1=String.valueOf(CartActivity.count);
+        createpdf1();
+
+        //File file = new File(directory_path);
 
 
-
-        btnCreate.setOnClickListener(new View.OnClickListener() {
+        /*btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
       //          count=count+1;
 
-                count1=String.valueOf(CartActivity.count);
-                createpdf1();
+
                 startActivity(new Intent(FinalBillActivity.this,HomeActivity.class));
                 finish();
             }
 
 
-        });
+        });*/
     }
 
     private void createpdf1() {
@@ -79,10 +82,12 @@ public class FinalBillActivity extends AppCompatActivity {
         float hight = displaymetrics.heightPixels ;
         float width = displaymetrics.widthPixels ;
 
+        int y=300;
+
         int convertHighet = 200, convertWidth=300;
 
         Resources mResources = getResources();
-        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.mainlogo);
+        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.ic_facebookicon);
 
         PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(790, 1122, 1).create();
@@ -98,12 +103,26 @@ public class FinalBillActivity extends AppCompatActivity {
 
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(bitmap, 150, 0 , null);
-        canvas.drawText("Bill:- "+checksum.orderId, 40, 170, paint);
+        canvas.drawText("Bill:- " + checksum.orderId, 40, 170, paint);
         canvas.drawText("Cutomer Id:- " + checksum.custid, 40, 190, paint);
         canvas.drawText("Date:- " + HomeActivity.dateString + "   Time:- " + HomeActivity.timeString, 40,210, paint);
-        canvas.drawText("Products :- "+CartAdapter.productname+" "+"Qty:-"+CartAdapter.tqty, 40, 230, paint);
-        canvas.drawText("Qty:- " + CartAdapter.tqty, 40, 250, paint);
-        canvas.drawText("Total:- " + checksum.total, 40, 270, paint);
+
+        canvas.drawText("", 40, 250, paint);
+        canvas.drawText("Products" + "          " + "Quantity" + "          " + "Price/item"  + "          "+ "Price", 40, 270, paint);
+        canvas.drawText("------------------------------------------------------------------------------------------", 40, 240, paint);
+
+        for (int i=0;i<CartAdapter.qty.length;i++) {
+            canvas.drawText( CartAdapter.product[i]  , 40, y, paint);
+            canvas.drawText(String.valueOf(CartAdapter.qty[i]),140,y,paint);
+            canvas.drawText(String.valueOf(CartAdapter.pri[i]),210,y,paint);
+            canvas.drawText(String.valueOf(CartAdapter.qty[i]*CartAdapter.pri[i]),280,y,paint);
+            //canvas.drawText("------------------------------------------------------------------------------------------", 40, 240, paint);
+            y += 20;
+        }
+        y+= 20;
+        canvas.drawText("------------------------------------------------------------------------------------------", 40, y, paint);
+
+        canvas.drawText("Total:- " + checksum.total, 230, y+20, paint);
         document.finishPage(page);
 
         // write the document content
@@ -115,7 +134,7 @@ public class FinalBillActivity extends AppCompatActivity {
             file.mkdirs();
         }
 
-        String targetPdf = directory_path + "" + CartActivity.count + ".pdf";
+        String targetPdf = directory_path + "Invoice"+checksum.orderId + ".pdf";
         File filePath = new File(targetPdf);
 
         try {
@@ -126,6 +145,20 @@ public class FinalBillActivity extends AppCompatActivity {
             }
             if(filePath.exists()) {
                 Toast.makeText(FinalBillActivity.this, "Invoice Downloaded", Toast.LENGTH_LONG).show();
+
+               /* Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"parammoradiya98@gmail.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Order no--" + checksum.orderId);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Thank you for shopping.");
+
+                if (!file.exists() || !file.canRead()) {
+                    return;
+                }
+                Uri uri = Uri.fromFile(file);
+                emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
+*/
             }
 
             //boolean_save=true;
@@ -137,7 +170,5 @@ public class FinalBillActivity extends AppCompatActivity {
         // close the document
         document.close();
     }
-
-
 }
 

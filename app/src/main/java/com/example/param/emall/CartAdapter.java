@@ -21,14 +21,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     static String productname="";
     String item ="";
     ArrayList<cartactivitymodel> cartactivitymodels;
-    int[] qty = new int[20];
-    int[] pri = new int[20];
-    String[] product = new String[50];
+    static int[] qty ;
+    static int[] pri;
+    static String[] product ;
 
     public CartAdapter(Context c,ArrayList<cartactivitymodel> ca)
     {
         context = c;
         cartactivitymodels = ca;
+        qty = new int[cartactivitymodels.size()];
+        pri = new int[cartactivitymodels.size()];
+        product = new String[cartactivitymodels.size()];
     }
 
     @NonNull
