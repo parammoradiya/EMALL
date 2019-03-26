@@ -82,7 +82,7 @@ public class FinalBillActivity extends AppCompatActivity {
         int convertHighet = 200, convertWidth=300;
 
         Resources mResources = getResources();
-        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.ic_facebookicon);
+        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.mainlogo);
 
         PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(790, 1122, 1).create();
@@ -100,10 +100,10 @@ public class FinalBillActivity extends AppCompatActivity {
         canvas.drawBitmap(bitmap, 150, 0 , null);
         canvas.drawText("Bill:- "+checksum.orderId, 40, 170, paint);
         canvas.drawText("Cutomer Id:- " + checksum.custid, 40, 190, paint);
-        canvas.drawText("Date:- " + HomeActivity.dateString + "   Time:- " + HomeActivity.timeString, 40, 190, paint);
-        canvas.drawText("Products :- "+CartAdapter.productname+" "+"Qty:-"+CartAdapter.tqty, 40, 210, paint);
-        canvas.drawText("Qty:- " + CartAdapter.tqty, 40, 210, paint);
-        canvas.drawText("Total:- " + checksum.total, 40, 230, paint);
+        canvas.drawText("Date:- " + HomeActivity.dateString + "   Time:- " + HomeActivity.timeString, 40,210, paint);
+        canvas.drawText("Products :- "+CartAdapter.productname+" "+"Qty:-"+CartAdapter.tqty, 40, 230, paint);
+        canvas.drawText("Qty:- " + CartAdapter.tqty, 40, 250, paint);
+        canvas.drawText("Total:- " + checksum.total, 40, 270, paint);
         document.finishPage(page);
 
         // write the document content

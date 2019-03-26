@@ -19,6 +19,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     Context context;
     static int amount =0,tqty = 0;
     static String productname="";
+    String item ="";
     ArrayList<cartactivitymodel> cartactivitymodels;
     int[] qty = new int[20];
     int[] pri = new int[20];
@@ -41,9 +42,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         cartViewHolder.pname.setText(cartactivitymodels.get(i).getName());
         cartViewHolder.pprice.setText(cartactivitymodels.get(i).getPrice());
         cartViewHolder.pqty.setText(cartactivitymodels.get(i).getQty());
-        allItem.put("Item "+i,cartactivitymodels.get(i).getName());
+
+         item += "Item :"+cartactivitymodels.get(i).getName() +"\nPrice : "+cartactivitymodels.get(i).getPrice() +"\nQty : " +cartactivitymodels.get(i).getQty() + "\n";
+       /* allItem.put("Item "+i,cartactivitymodels.get(i).getName());
         allItem.put("Price "+i,cartactivitymodels.get(i).getPrice());
-        allItem.put("qty "+i,cartactivitymodels.get(i).getQty());
+        allItem.put("qty "+i,cartactivitymodels.get(i).getQty());*/
+       allItem.put("All Item",item);
 
         qty[i] = Integer.parseInt(cartactivitymodels.get(i).getQty());
         pri[i] = Integer.parseInt(cartactivitymodels.get(i).getPrice());
