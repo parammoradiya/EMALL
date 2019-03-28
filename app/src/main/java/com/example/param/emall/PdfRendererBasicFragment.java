@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -37,7 +38,9 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
     /**
      * The filename of the PDF.
      */
-    private static final String FILENAME = "sample.pdf";
+
+
+    private static final String FILENAME = "";
 
     /**
      * File descriptor of the PDF.
@@ -140,7 +143,13 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
      */
     private void openRenderer(Context context) throws IOException {
         // In this sample, we read a PDF from the assets directory.
-        File file = new File(context.getCacheDir(), FILENAME);
+
+        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/myBill/";
+        String targetPdf = directory_path + "Invoice"+checksum.orderId + ".pdf";
+
+        File file = new File(targetPdf);
+
+       // File file = new File(context.getCacheDir(), FILENAME);
         if (!file.exists()) {
             // Since PdfRenderer cannot handle the compressed asset file directly, we copy it into
             // the cache directory.

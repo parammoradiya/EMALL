@@ -8,4 +8,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="previous">PREVIOUS</string>
     <string name="next">NEXT</string>
+    <string name="app_name_with_index">PdfRendererBasic (%1$d/%2$d)</string>
+
 </resources>

@@ -59,8 +59,8 @@ public class FinalBillActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_bill);
 
-        btnCreate = (Button)findViewById(R.id.create);
-        text =(TextView) findViewById(R.id.text1);
+      //  btnCreate = (Button)findViewById(R.id.create);
+        //text =(TextView) findViewById(R.id.text1);
 
         count1=String.valueOf(CartActivity.count);
 
