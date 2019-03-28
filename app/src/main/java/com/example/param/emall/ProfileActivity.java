@@ -21,7 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Toolbar OToolbar;
     TextView tpname,tpcontact,tpemail,tpnameedit,tpcontactedit;
     Button tpresetpass;
-    String name,contcat,email;
+    static String name,contcat,email;
 
     private DatabaseReference mUserdatabase;
     private FirebaseUser mCurrentuser;

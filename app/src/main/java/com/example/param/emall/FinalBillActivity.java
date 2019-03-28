@@ -30,8 +30,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,6 +46,12 @@ public class FinalBillActivity extends AppCompatActivity {
     TextView text;
     String count1;
     //int count=0;
+    public String name,contcat;
+    private DatabaseReference mUserdatabase;
+    private FirebaseUser mCurrentuser;
+
+    public static final String FRAGMENT_PDF_RENDERER_BASIC = "pdf_renderer_basic";
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -54,9 +63,41 @@ public class FinalBillActivity extends AppCompatActivity {
         text =(TextView) findViewById(R.id.text1);
 
         count1=String.valueOf(CartActivity.count);
+
+        mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
+        String current_uid = mCurrentuser.getUid();
+        mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid);
+
+        mUserdatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                name = dataSnapshot.child("Name").getValue().toString();
+                contcat = dataSnapshot.child("Contact_no").getValue().toString();
+               //email = dataSnapshot.child("Email").getValue().toString();
+               Log.v("name" ,name);
+               Log.v("contact",contcat);
+
+                /*tpname.setText(name);
+                tpcontact.setText(contcat);
+                tpemail.setText(email);*/
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //for handle error while retriving data
+            }
+        });
+
         createpdf1();
-        startActivity(new Intent(FinalBillActivity.this,HomeActivity.class));
-        finish();
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PdfRendererBasicFragment(),
+                            FRAGMENT_PDF_RENDERER_BASIC)
+                    .commit();
+        }
+
+        //startActivity(new Intent(FinalBillActivity.this,HomeActivity.class));
+        //finish();
 
         /*btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,12 +116,12 @@ public class FinalBillActivity extends AppCompatActivity {
         float hight = displaymetrics.heightPixels ;
         float width = displaymetrics.widthPixels ;
 
-        int y=300;
+        int y=340;
 
         int convertHighet = 200, convertWidth=300;
 
         Resources mResources = getResources();
-        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.ic_facebookicon);
+        Bitmap bitmap = BitmapFactory.decodeResource(mResources, R.drawable.pdf_heading);
 
         PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(790, 1122, 1).create();
@@ -92,30 +133,32 @@ public class FinalBillActivity extends AppCompatActivity {
         paint.setColor(Color.parseColor("#ffffff"));
         canvas.drawPaint(paint);
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 710, 100, true);
 
-        paint.setColor(Color.BLUE);
-        canvas.drawBitmap(bitmap, 150, 0 , null);
-        canvas.drawText("Bill:- " + checksum.orderId, 40, 170, paint);
-        canvas.drawText("Cutomer Id:- " + checksum.custid, 40, 190, paint);
-        canvas.drawText("Date:- " + HomeActivity.dateString + "   Time:- " + HomeActivity.timeString, 40,210, paint);
+        paint.setColor(Color.BLACK);
+        canvas.drawBitmap(bitmap, 40, 50 , null);
+        canvas.drawText("Order ID:- " + checksum.orderId, 40, 220, paint);
+        //canvas.drawText("Cutomer Name:- " + String.valueOf(name) + "               " + "Mobile number:- " + String.valueOf(contcat) , 40, 240, paint );
+        canvas.drawText("Date:- " + HomeActivity.dateString + "   Time:- " + HomeActivity.timeString, 40,260, paint);
 
-        canvas.drawText("", 40, 250, paint);
-        canvas.drawText("Products" + "          " + "Quantity" + "          " + "Price/item"  + "          "+ "Price", 40, 270, paint);
-        canvas.drawText("------------------------------------------------------------------------------------------", 40, 240, paint);
+        canvas.drawText("", 40, 280, paint);
+        canvas.drawText("Products" + "                                                                                                                             " +
+                "Quantity" + "          " +
+                "Price/item"  + "          "+ "Price", 40, 300, paint);
+        canvas.drawText("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", 40, 320, paint);
 
         for (int i=0;i<CartAdapter.qty.length;i++) {
             canvas.drawText( CartAdapter.product[i]  , 40, y, paint);
-            canvas.drawText(String.valueOf(CartAdapter.qty[i]),140,y,paint);
-            canvas.drawText(String.valueOf(CartAdapter.pri[i]),210,y,paint);
-            canvas.drawText(String.valueOf(CartAdapter.qty[i]*CartAdapter.pri[i]),280,y,paint);
+            canvas.drawText(String.valueOf(CartAdapter.qty[i]),480,y,paint);
+            canvas.drawText(String.valueOf(CartAdapter.pri[i]),550,y,paint);
+            canvas.drawText(String.valueOf(CartAdapter.qty[i]*CartAdapter.pri[i]),630,y,paint);
             //canvas.drawText("------------------------------------------------------------------------------------------", 40, 240, paint);
             y += 20;
         }
         y+= 20;
-        canvas.drawText("------------------------------------------------------------------------------------------", 40, y, paint);
+        canvas.drawText("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", 40, y, paint);
 
-        canvas.drawText("Total:- " + checksum.total, 230, y+20, paint);
+        canvas.drawText("Total:- " + checksum.total, 600, y+20, paint);
         document.finishPage(page);
 
         // write the document content

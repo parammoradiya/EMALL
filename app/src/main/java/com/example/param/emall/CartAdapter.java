@@ -74,12 +74,13 @@ Button btn_update;
         allItem.put("qty "+i,cartactivitymodels.get(i).getQty());*/
        allItem.put("All Item",item);
 
-        /*qty[i] = Integer.parseInt(cartactivitymodels.get(i).getQty());
+        qty[i] = Integer.parseInt(cartactivitymodels.get(i).getQty());
         pri[i] = Integer.parseInt(cartactivitymodels.get(i).getPrice());
         product[i] = String.valueOf(cartactivitymodels.get(i).getName());
         amount = amount + (qty[i] * pri[i]);
         tqty = tqty + qty[i];
-        productname = productname + product[i] +"\n";*/;
+        //productname = productname + product[i] +"\n";;
+
         cartViewHolder.rel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +116,7 @@ Button btn_update;
                         updateData.put("Price",cm.getPrice());
                         updateData.put("Qty",String.valueOf(Integer.parseInt(update_qty) +Integer.parseInt(cm.getQty())));
                         updateData.put("Code",cm.getCode());
+
                         reference.setValue(updateData);
                         HomeActivity.arrayAdapter.clear();
                         dialog.dismiss();

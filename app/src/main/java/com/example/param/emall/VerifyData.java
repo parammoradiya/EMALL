@@ -36,7 +36,8 @@ public class VerifyData extends AppCompatActivity {
             Transaction.setValue(CartAdapter.allItem);
             //CartActivity.mlist.clear();
             Orderhistory.setValue(CartAdapter.allItem);
-            productlistremove.removeValue();
+            //for temporery
+           // productlistremove.removeValue();
 
            startActivity(new Intent(VerifyData.this,FinalBillActivity.class));
             finish();
@@ -62,6 +63,7 @@ public class VerifyData extends AppCompatActivity {
             startActivity(new Intent(VerifyData.this,CartActivity.class));
             finish();
         }
+
     }
 }
 
