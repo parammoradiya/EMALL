@@ -16,6 +16,11 @@
             android:icon="@drawable/ic_shopping_cart"
             android:title="Cart" />
 
+        <item
+            android:id="@+id/order_history_tab"
+            android:icon="@drawable/ic_shopping_cart"
+            android:title="Order" />
+
     </group>
     <group
         android:id="@+id/menu_bottom"

@@ -153,6 +153,7 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
     public void onTransactionResponse(Bundle bundle) {
         Log.e("checksum ", " respon true " + bundle.toString());
         Toast.makeText(checksum.this,"Payment Successfull",Toast.LENGTH_SHORT).show();
+
         status = "Success";
 
         //Intent i = new Intent(checksum.this,FinalBillActivity.class);

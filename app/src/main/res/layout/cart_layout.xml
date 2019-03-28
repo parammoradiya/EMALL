@@ -1,86 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@android:color/white"
+    android:id="@+id/rel">
 
-    <RelativeLayout
-        android:id="@+id/rel"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/white">
+        android:weightSum="2"
+        android:id="@+id/ll1"
+
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/cpname"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="15dp"
             android:text="product name"
             android:textColor="@android:color/black"
             android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/rs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cpname"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:text="Rs."
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/cpprice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cpname"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/rs"
-            android:text="price"
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/qty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/cpname"
-            android:background="@android:color/white"
-            android:text="Qty: "
-            android:textColor="@android:color/black"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/cpquantity"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="15dp"
+            android:layout_weight="1"
             android:layout_toRightOf="@+id/qty"
-            android:background="@android:color/white"
+
             android:text="Q"
             android:textColor="@android:color/black"
             android:textSize="18dp"
             android:textStyle="bold" />
 
-    </RelativeLayout>
 
-    <!--<Button
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rel"
-        android:id="@+id/cartdelete"
-        android:background="@android:color/white"
-        android:text="remove" />-->
+        android:weightSum="3"
+        android:layout_below="@+id/ll1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cpprice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.8"
+            android:text="price"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:id="@+id/btnUpdate"
+            android:background="@drawable/ic_launcher_updatelist"/>
+
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.5"
+            android:id="@+id/btnDelete"
+            android:background="@drawable/ic_launcher_foreground"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

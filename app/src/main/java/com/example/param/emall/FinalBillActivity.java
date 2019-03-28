@@ -55,21 +55,14 @@ public class FinalBillActivity extends AppCompatActivity {
 
         count1=String.valueOf(CartActivity.count);
         createpdf1();
-
-        //File file = new File(directory_path);
-
+        startActivity(new Intent(FinalBillActivity.this,HomeActivity.class));
+        finish();
 
         /*btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-      //          count=count+1;
 
-
-                startActivity(new Intent(FinalBillActivity.this,HomeActivity.class));
-                finish();
             }
-
-
         });*/
     }
 
@@ -146,7 +139,8 @@ public class FinalBillActivity extends AppCompatActivity {
             if(filePath.exists()) {
                 Toast.makeText(FinalBillActivity.this, "Invoice Downloaded", Toast.LENGTH_LONG).show();
 
-               /* Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+               /*Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("text/plain");
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"parammoradiya98@gmail.com"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Order no--" + checksum.orderId);
@@ -157,8 +151,8 @@ public class FinalBillActivity extends AppCompatActivity {
                 }
                 Uri uri = Uri.fromFile(file);
                 emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));
-*/
+                startActivity(Intent.createChooser(emailIntent, "Pick an Email provider"));*/
+
             }
 
             //boolean_save=true;

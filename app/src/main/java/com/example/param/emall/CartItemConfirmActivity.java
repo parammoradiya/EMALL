@@ -34,6 +34,7 @@ public class CartItemConfirmActivity extends AppCompatActivity {
     private Toolbar OToolbar;
     private FirebaseUser mCurrentuser;
     TextView txt_amount;
+    //ArrayList<String> testCodelist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class CartItemConfirmActivity extends AppCompatActivity {
         txt_amount = (TextView)findViewById(R.id.txt_amount);
 
         OToolbar = (Toolbar) findViewById(R.id.Cart_Confirm_toolbar);
+        //testCodelist = new ArrayList<>();
+        //testCodelist = getIntent().getStringArrayListExtra("testCodelist");
 
         setSupportActionBar(OToolbar);
         getSupportActionBar().setTitle("CONFIRM ORDER");

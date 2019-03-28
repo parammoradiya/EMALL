@@ -6,14 +6,24 @@ public class cartactivitymodel {
     private  String Price;
     // private  String contact_no;
     private  String qty;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public cartactivitymodel() {
     }
 
-    public cartactivitymodel(String name, String price, String qty) {
+    public cartactivitymodel(String name, String price, String qty,String code) {
         Name = name;
         Price = price;
         this.qty = qty;
+        this.code = code;
     }
 
     public  String getName() {

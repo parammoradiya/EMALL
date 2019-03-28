@@ -34,9 +34,11 @@ public class VerifyData extends AppCompatActivity {
             Log.v("Cart Item ",CartAdapter.allItem.toString());
 
             Transaction.setValue(CartAdapter.allItem);
+            //CartActivity.mlist.clear();
             Orderhistory.setValue(CartAdapter.allItem);
-           // productlistremove.remove();
-            startActivity(new Intent(VerifyData.this,FinalBillActivity.class));
+            productlistremove.removeValue();
+
+           startActivity(new Intent(VerifyData.this,FinalBillActivity.class));
             finish();
         }
         else if(checksum.status.equalsIgnoreCase("Pending")){

@@ -44,6 +44,8 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     private int REQUEST = 100;
     private Date time;
+    static ArrayList<String> CodeList;
+    //ArrayList<String> testCodelist;
     static int Total;
     HashMap<String,String> cart;
     boolean flag = false;
@@ -96,6 +98,8 @@ public class HomeActivity extends AppCompatActivity {
         btn_scanner = (Button) findViewById(R.id.btn_scanner);
         addtocartbtn = (Button) findViewById(R.id.addtocartbtn);
         //result_text = (TextView) findViewById(R.id.product_code);
+        CodeList = new ArrayList<>();
+        //testCodelist = new ArrayList<>();
         FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
         // DatabaseReference myref = firebaseDatabase.getReference(firebaseAuth.getUid());
         quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
@@ -135,19 +139,26 @@ public class HomeActivity extends AppCompatActivity {
                 Log.v("Code.....",code);
                 Log.v("@@@", "" + name);
                 Log.v("@@", "" + price);
+
                      quantity =1;
+                    CodeList.add(code);
                     if(!code.equals("1")) {
+                       // CodeList.add(code);
+                        //testCodelist.add(code);
+
                         if (!name.isEmpty() && !price.isEmpty() && !qty.isEmpty()) {
                             myRef = reference.child(code);
                             HashMap<String, String> userMap = new HashMap<>();
                             userMap.put("Name", name);
                             userMap.put("Price", price);
                             userMap.put("qty", qty);
+                            userMap.put("Code",code);
                             myRef.setValue(userMap);
 
                             cart.put("Name", name);
                             cart.put("Price", price);
                             cart.put("qty", qty);
+                            cart.put("Code",code);
                             Total = Integer.parseInt(qty)*Integer.parseInt(price);
                 /*HashMap<String,Integer> userMap1 = new HashMap<>();
                 userMap1.put("Quantity",totalQty);
@@ -162,7 +173,8 @@ public class HomeActivity extends AppCompatActivity {
                 cartintent.putExtra("value", value);
                 //Log.e("value", value);
                */
-                            startActivity(cartintent);
+             //  cartintent.putExtra("Codelist",testCodelist);
+               startActivity(cartintent);
                             Log.v("CART ::",cart.toString());
                             arrayAdapter.clear();
                             quantityTextView.setText("1");
@@ -225,6 +237,12 @@ public class HomeActivity extends AppCompatActivity {
             arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_product_list);
             m_listView.setAdapter(arrayAdapter);
         }*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -310,6 +328,10 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     case R.id.profiletab: {
                         startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+                        break;
+                    }
+                    case R.id.order_history_tab: {
+                        startActivity(new Intent(HomeActivity.this, OrderHistoryActivity.class));
                         break;
                     }
                     /*case  R.id.action_open_cart:{

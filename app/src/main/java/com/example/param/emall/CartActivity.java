@@ -55,11 +55,12 @@ public class CartActivity extends AppCompatActivity {
 
     Button mcartdelete;
 
-    ArrayList<cartactivitymodel> mlist;
+    static ArrayList<cartactivitymodel> mlist;
     private DatabaseReference mUserdatabase, mref, mreference;
     RecyclerView mrecyclerview;
     CartAdapter madapter;
     private String orderid;
+   //ArrayList<String> testCodelist;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -74,6 +75,8 @@ public class CartActivity extends AppCompatActivity {
         //mcartdelete = (Button)findViewById(R.id.cartdelete);
         list = new ArrayList();
         OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
+
+      //  Log.v("CODE::>",""+testCodelist.size());
 
         setSupportActionBar(OToolbar);
         getSupportActionBar().setTitle("CART");
@@ -97,6 +100,8 @@ public class CartActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     cartactivitymodel ca = dataSnapshot1.getValue(cartactivitymodel.class);
+                    ca.setCode(dataSnapshot1.child("Code").getValue().toString());
+                    Log.v("CODE","@@@"+dataSnapshot1.child("Code").getValue()+" $$$ "+ca.getName()+" %%% "+ ca.getPrice());
                     mlist.add(ca);
                 }
                 madapter = new CartAdapter(CartActivity.this, mlist);
@@ -124,6 +129,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CartActivity.this, CartItemConfirmActivity.class);
+               // i.putExtra("testCodelist",testCodelist);
                 startActivity(i);
 
             }
@@ -261,6 +267,5 @@ public class CartActivity extends AppCompatActivity {
         super.onStop();
         adapter.stopListening();
     }*/
-
 
 }
