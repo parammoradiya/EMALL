@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
+    android:layout_margin="10dp"
+    android:elevation="5dp"
     android:background="@android:color/white"
     android:id="@+id/rel">
 
@@ -11,7 +13,6 @@
         android:layout_height="wrap_content"
         android:weightSum="2"
         android:id="@+id/ll1"
-
         android:orientation="horizontal">
 
         <TextView
@@ -19,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="product name"
+            android:text="Product"
             android:textColor="@android:color/black"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -30,8 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_toRightOf="@+id/qty"
-
-            android:text="Q"
+            android:text="Qty"
             android:textColor="@android:color/black"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -43,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
+        android:id="@+id/textviewlinear"
         android:layout_below="@+id/ll1"
         android:orientation="horizontal">
 
@@ -56,20 +57,32 @@
             android:textSize="18dp"
             android:textStyle="bold" />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/textviewlinear">
         <Button
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="0.5"
             android:id="@+id/btnUpdate"
-            android:background="@drawable/ic_launcher_updatelist"/>
-
+           android:text="Update Qty"
+            />
+        <!--android:background="@drawable/ic_launcher_updatelist-->"
 
         <Button
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="0.5"
             android:id="@+id/btnDelete"
-            android:background="@drawable/ic_delete_black_24dp"/>
+            android:text="Remove"
+            />
+        <!--android:background="@drawable/ic_delete_black_24dp"-->
+
     </LinearLayout>
 
 

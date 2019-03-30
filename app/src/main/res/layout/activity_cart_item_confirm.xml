@@ -14,47 +14,64 @@
         android:id="@+id/infoconf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_below="@+id/Cart_Confirm_toolbar"
+        android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="You Have Following Item"
         android:textColor="@color/black"
         android:textSize="20dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/Cart_Confirm_toolbar"
-        android:text="You Have Following Item"/>
+        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myRecyclerview"
         android:layout_width="match_parent"
-        android:layout_below="@id/infoconf"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/txt_amount"
+        android:layout_below="@id/infoconf">
+
+    </android.support.v7.widget.RecyclerView>
 
     <TextView
+        android:id="@+id/txt_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="cdbcbdksjbc"
         android:layout_above="@+id/twobtn"
-        android:id="@+id/txt_amount"/>
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="cdbcbdksjbc"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/twobtn"
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cartbackbtn"
-        android:text="BACK"/>
+        <Button
+            android:id="@+id/cartbackbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="#ff6f00"
+            android:text="BACK"
+            android:textColor="@color/white" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cartpaybtn"
-        android:text="PAY"/>
+        <Button
+            android:id="@+id/cartpaybtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:background="#ff6f00"
+            android:text="PAY"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

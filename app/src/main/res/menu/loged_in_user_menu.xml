@@ -9,27 +9,22 @@
         <item
             android:id="@+id/profiletab"
             android:icon="@drawable/ic_person"
-            android:title="Profile" />
+            android:title="My Profile" />
 
         <item
             android:id="@+id/carttab"
             android:icon="@drawable/ic_shopping_cart"
-            android:title="Cart" />
+            android:title="My Cart" />
 
         <item
             android:id="@+id/order_history_tab"
-            android:icon="@drawable/ic_shopping_cart"
-            android:title="Order" />
+            android:icon="@drawable/ic_history"
+            android:title="My Order" />
 
     </group>
     <group
         android:id="@+id/menu_bottom"
         android:checkableBehavior="single">
-
-        <item
-            android:id="@+id/logout"
-            android:icon="@drawable/ic_logout"
-            android:title="Log Out" />
 
         <item
             android:id="@+id/feedback"
@@ -40,5 +35,11 @@
             android:id="@+id/about"
             android:icon="@drawable/ic_info"
             android:title="About" />
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Log Out" />
+
     </group>
 </menu>

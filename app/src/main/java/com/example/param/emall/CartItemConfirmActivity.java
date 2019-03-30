@@ -28,12 +28,17 @@ public class CartItemConfirmActivity extends AppCompatActivity {
 
     Button backbtn,paybtn;
     ArrayList<cartactivitymodel> mlist;
-    private DatabaseReference mUserdatabase, mref, mreference;
+    private DatabaseReference mreference;
     RecyclerView mrecyclerview;
     CartAdapter madapter;
     private Toolbar OToolbar;
     private FirebaseUser mCurrentuser;
     TextView txt_amount;
+    static int finalTotal = 0;
+
+    static String ProductData[];
+    static int ProductQty[];
+    static int ProductPrice[];
     //ArrayList<String> testCodelist;
 
     @Override
@@ -48,10 +53,14 @@ public class CartItemConfirmActivity extends AppCompatActivity {
         OToolbar = (Toolbar) findViewById(R.id.Cart_Confirm_toolbar);
         //testCodelist = new ArrayList<>();
         //testCodelist = getIntent().getStringArrayListExtra("testCodelist");
+        ProductData = new String[CartAdapter.pri.length];
+        ProductQty = new int[CartAdapter.pri.length];
+        ProductPrice = new int[CartAdapter.pri.length];
 
         setSupportActionBar(OToolbar);
         getSupportActionBar().setTitle("CONFIRM ORDER");
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mrecyclerview = (RecyclerView) findViewById(R.id.myRecyclerview);
         mrecyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -59,13 +68,17 @@ public class CartItemConfirmActivity extends AppCompatActivity {
 
         mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
         final String current_uid = mCurrentuser.getUid();
-        mreference = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
-
+        mreference = FirebaseDatabase.getInstance().getReference().child("EMALL Cart").child(current_uid).child("Cart Added");
         mreference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    cartactivitymodel ca = dataSnapshot1.getValue(cartactivitymodel.class);
+                    cartactivitymodel ca = new cartactivitymodel();
+                    ca.setName(dataSnapshot1.child("Name").getValue().toString());
+                    ca.setPrice(dataSnapshot1.child("Price").getValue().toString());
+                    ca.setCode(dataSnapshot1.child("Code").getValue().toString());
+                    ca.setQty(dataSnapshot1.child("Qty").getValue().toString());
+                    //Log.v("CODE","@@@"+dataSnapshot1.child("Code").getValue()+" $$$ "+dataSnapshot1.child("Name").getValue().toString()+" %%% "+ dataSnapshot1.child("Price").getValue().toString() + "!!!!" + dataSnapshot1.child("Qty").getValue().toString());
                     mlist.add(ca);
                 }
                 CartAdapter.amount = 0;
@@ -80,9 +93,18 @@ public class CartItemConfirmActivity extends AppCompatActivity {
             }
         });
 
-       txt_amount.setText("Total Amount : " +  CartAdapter.amount +
-               "\nTotal Quantity : " + CartAdapter.tqty +
-               "\nProducts : \n" + CartAdapter.productname  );
+        for(int i=0;i<CartAdapter.qty.length;i++){
+            ProductData[i] = CartAdapter.product[i];
+            ProductPrice[i] = CartAdapter.pri[i];
+            ProductQty[i] = CartAdapter.qty[i];
+            CartAdapter.amount = CartAdapter.amount + (CartAdapter.qty[i]*CartAdapter.pri[i]);
+            CartAdapter.tqty = CartAdapter.tqty + CartAdapter.qty[i];
+            CartAdapter.productname = CartAdapter.productname + CartAdapter.product[i] + "\n";
+        }
+
+        finalTotal = CartAdapter.amount;
+        txt_amount.setText("Total Amount : " +  finalTotal +
+                "\nTotal Quantity : " + CartAdapter.tqty);
 
 
 

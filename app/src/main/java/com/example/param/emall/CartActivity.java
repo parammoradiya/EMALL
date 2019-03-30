@@ -1,12 +1,15 @@
 package com.example.param.emall;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -14,9 +17,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,20 +54,27 @@ public class CartActivity extends AppCompatActivity {
     FirebaseListAdapter adapter;
     String code;
     static int count=1000;
+    static int finalTotal = 0;
     static int amount, TotalPrice;
- //   int[] total;
+    //   int[] total;
     int pos = 0;
     private FirebaseUser mCurrentuser;
 
-    Button mcartdelete;
+    Button mcartdelete,btn_pay;
 
     static ArrayList<cartactivitymodel> mlist;
     private DatabaseReference mUserdatabase, mref, mreference;
     RecyclerView mrecyclerview;
     CartAdapter madapter;
     private String orderid;
-   //ArrayList<String> testCodelist;
+    //ArrayList<String> testCodelist;
 
+    TextView totalqty,totalamount,txt_name,txt_price;
+    ImageView close;
+    static int finalqty=0;
+    static String ProductData[];
+    static int ProductQty[];
+    static int ProductPrice[];
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -76,8 +89,10 @@ public class CartActivity extends AppCompatActivity {
         list = new ArrayList();
         OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
 
-      //  Log.v("CODE::>",""+testCodelist.size());
 
+
+        //  Log.v("CODE::>",""+testCodelist.size());
+        btn_payment.setVisibility(View.INVISIBLE);
         setSupportActionBar(OToolbar);
         getSupportActionBar().setTitle("CART");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,18 +109,36 @@ public class CartActivity extends AppCompatActivity {
 
         mCurrentuser = FirebaseAuth.getInstance().getCurrentUser();
         final String current_uid = mCurrentuser.getUid();
-        mreference = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
+        mreference = FirebaseDatabase.getInstance().getReference().child("EMALL Cart").child(current_uid).child("Cart Added");
         mreference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    cartactivitymodel ca = dataSnapshot1.getValue(cartactivitymodel.class);
+                    cartactivitymodel ca = new cartactivitymodel();
+                    ca.setName(dataSnapshot1.child("Name").getValue().toString());
+                    ca.setPrice(dataSnapshot1.child("Price").getValue().toString());
                     ca.setCode(dataSnapshot1.child("Code").getValue().toString());
-                    Log.v("CODE","@@@"+dataSnapshot1.child("Code").getValue()+" $$$ "+ca.getName()+" %%% "+ ca.getPrice());
+                    ca.setQty(dataSnapshot1.child("Qty").getValue().toString());
+                    //Log.v("CODE","@@@"+dataSnapshot1.child("Code").getValue()+" $$$ "+dataSnapshot1.child("Name").getValue().toString()+" %%% "+ dataSnapshot1.child("Price").getValue().toString() + "!!!!" + dataSnapshot1.child("Qty").getValue().toString());
                     mlist.add(ca);
                 }
-                madapter = new CartAdapter(CartActivity.this, mlist);
-                mrecyclerview.setAdapter(madapter);
+                if(mlist.isEmpty()) {
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(CartActivity.this);
+                    mBuilder.setMessage("No item in Cart");
+                    mBuilder.setCancelable(false);
+                    mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(CartActivity.this,HomeActivity.class));
+                        }
+                    });
+                    mBuilder.show();
+                    btn_payment.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    btn_payment.setVisibility(View.VISIBLE);
+                    madapter = new CartAdapter(CartActivity.this, mlist);
+                    mrecyclerview.setAdapter(madapter);}
             }
 
             @Override
@@ -113,6 +146,7 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(CartActivity.this, "failed to load cart data!!", Toast.LENGTH_LONG).show();
             }
         });
+
 
         //mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid);
         //Query query = FirebaseDatabase.getInstance().getReference().child("user").child(current_uid).child("product_list");
@@ -128,9 +162,69 @@ public class CartActivity extends AppCompatActivity {
         btn_payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CartActivity.this, CartItemConfirmActivity.class);
-               // i.putExtra("testCodelist",testCodelist);
-                startActivity(i);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(CartActivity.this);
+                mBuilder.setCancelable(false);
+                //View mView = View.inflate(context,R.layout.update_data,null);
+                View mView = View.inflate(CartActivity.this,R.layout.cart_confirm_dialog,null);
+
+
+                txt_name = (TextView)mView.findViewById(R.id.txt_Name);
+                txt_price = (TextView)mView.findViewById(R.id.txt_Price);
+                totalqty = (TextView) mView.findViewById(R.id.edt_total_qty);
+                totalamount = (TextView) mView.findViewById(R.id.edt_total_amount);
+                btn_pay = (Button)mView.findViewById(R.id.btn_update);
+
+                close = (ImageView)mView.findViewById(R.id.cancelDialog);
+
+                CartAdapter.amount = 0;
+                CartAdapter.tqty = 0 ;
+
+                ProductData = new String[CartAdapter.pri.length];
+                ProductQty = new int[CartAdapter.pri.length];
+                ProductPrice = new int[CartAdapter.pri.length];
+
+                for(int j=0;j<CartAdapter.qty.length;j++){
+                    ProductData[j] = CartAdapter.product[j];
+                    ProductPrice[j] = CartAdapter.pri[j];
+                    ProductQty[j] = CartAdapter.qty[j];
+                    CartAdapter.amount = CartAdapter.amount + (CartAdapter.qty[j]*CartAdapter.pri[j]);
+                    CartAdapter.tqty = CartAdapter.tqty + CartAdapter.qty[j];
+                    //CartAdapter.productname = CartAdapter.productname + CartAdapter.product[i] + "\n";
+                }
+
+                finalTotal = CartAdapter.amount ;
+                finalqty = CartAdapter.tqty;
+                totalqty.setText(String.valueOf(finalqty));
+                totalamount.setText(String.valueOf(finalTotal));
+
+                Log.v("finaltotal", String.valueOf(CartAdapter.amount));
+                Log.v("total qty", String.valueOf(CartAdapter.tqty));
+                //mBuilder.(finalTotal);
+//                mBuilder.setMessage(CartAdapter.tqty);
+                //mBuilder.setView(dialogView);
+
+                mBuilder.setView(mView);
+
+                final AlertDialog dialog = mBuilder.create();
+                //Log.v("Code Position >>>>",String.valueOf(pos));
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                btn_pay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(CartActivity.this,checksum.class));
+                  }
+                });
+                dialog.show();
+                //btn_payment.setVisibility(View.INVISIBLE);
+
+                //Intent i = new Intent(CartActivity.this, CartItemConfirmActivity.class);
+                //startActivity(i);
 
             }
         });
@@ -186,8 +280,8 @@ public class CartActivity extends AppCompatActivity {
         Log.v("Price >>>",price);
         String qty = rep.getQty().toString();
         Log.v("QTY >>>",qty);*/
-        //amount = amount + (Integer.parseInt(price)*Integer.parseInt(qty));
-        //list.add(amount);
+    //amount = amount + (Integer.parseInt(price)*Integer.parseInt(qty));
+    //list.add(amount);
 
        /* for(int i=0;i<madapter.getItemCount();i++)
         {
@@ -199,7 +293,7 @@ public class CartActivity extends AppCompatActivity {
         }*/
            /* Log.v("Amount >>",String.valueOf(amount));
         Log.v("ADAPTER SIze >>>>",String.valueOf(madapter.getItemCount()));*/
-        // txt_amount.setText("Total amount = "+amount);
+    // txt_amount.setText("Total amount = "+amount);
         /*count = madapter.getItemCount();
 
         for(int i=0;i<mlist.size();i++){
@@ -268,4 +362,16 @@ public class CartActivity extends AppCompatActivity {
         adapter.stopListening();
     }*/
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(CartActivity.this,HomeActivity.class));
+        finish();
+
+    }
+
+    @Override
+    public boolean onNavigateUp() {
+        return super.onNavigateUp();
+    }
 }

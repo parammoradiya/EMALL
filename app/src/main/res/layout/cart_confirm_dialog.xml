@@ -15,34 +15,44 @@
             android:src="@drawable/confirm"
             android:id="@+id/cancelDialog"/>
     </android.support.design.widget.CoordinatorLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="Total QTY"
         android:id="@+id/txt_Name"
         android:textSize="20sp"
         android:layout_margin="10dp"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/edt_update_qty"
-        android:textSize="20sp"
-        android:inputType="number"
-        android:layout_margin="10dp"
-        android:hint="Enter quantity between 1 to 10"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Price"
+        android:id="@+id/edt_total_qty"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Amount"
         android:inputType="number"
         android:textSize="20sp"
         android:layout_margin="10dp"
         android:id="@+id/txt_Price"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edt_total_amount"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_margin="10dp" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Update"
+        android:text="PAY"
         android:background="@color/colorPrimary"
         android:textColor="#ffff"
         android:layout_margin="20sp"

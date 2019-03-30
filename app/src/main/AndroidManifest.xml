@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OrderHistoryActivity"></activity>
+        <activity android:name=".OrderHistoryActivity"
+            android:parentActivityName=".HomeActivity"></activity>
         <activity
             android:name=".ProfileUpdateActivity"
             android:parentActivityName=".ProfileActivity" />
@@ -24,7 +25,8 @@
             android:name=".ProfileActivity"
             android:parentActivityName=".HomeActivity" />
         <activity android:name=".CartItemConfirmActivity" />
-        <activity android:name=".FinalBillActivity" />
+        <activity android:name=".FinalBillActivity"
+            android:theme="@style/AppTheme1"/>
         <activity android:name=".Payment" />
         <activity
             android:name=".CartActivity"

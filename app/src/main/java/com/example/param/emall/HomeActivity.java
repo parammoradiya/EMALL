@@ -11,6 +11,7 @@ import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -47,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     static ArrayList<String> CodeList;
     //ArrayList<String> testCodelist;
     static int Total;
-    HashMap<String,String> cart;
+    static HashMap<String,String> cart;
     boolean flag = false;
     public static String name, price, code,error;
     private DrawerLayout mDrawerlayout;
@@ -61,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
     String qty="1";
     Button btn_scanner, addtocartbtn;
     ListView m_listView;
+    FloatingActionButton fabCart;
     public static Firebase m_ref;
     public static TextView result_text;
     DatabaseReference databaseReference;
@@ -83,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         mToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
         mDrawerlayout.addDrawerListener(mToggle);
         mToggle.syncState();
+        fabCart = (FloatingActionButton)findViewById(R.id.getCart);
         cart = new HashMap<>();
         time = new Date();
         long date = System.currentTimeMillis();
@@ -105,14 +108,14 @@ public class HomeActivity extends AppCompatActivity {
         quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
         quantityTextView.setText("1");
         String uid = Current_user.getUid();
-        reference = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");
+        reference = FirebaseDatabase.getInstance().getReference().child("EMALL Cart").child(uid).child("Cart Added");
+        //reference = FirebaseDatabase.getInstance().getReference().child("user").child(uid).child("product_list");
         lastSeen = FirebaseDatabase.getInstance().getReference().child("All User").child(uid).child("Last Seen");
 
         Log.v("uid",uid);
         HashMap<String,String> lastLogin = new HashMap<>();
         lastLogin.put("Last seen Date",dateString);
         lastLogin.put("Last Seen Time",timeString);
-
         Firebase.setAndroidContext(this);
         m_ref = new Firebase("https://emall-57850.firebaseio.com//productDetails");
         m_listView = (ListView) findViewById(R.id.list_item);
@@ -129,36 +132,42 @@ public class HomeActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_product_list);
         m_listView.setAdapter(arrayAdapter);
 
-
+        fabCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this,CartActivity.class));
+                finish();
+            }
+        });
 
         addtocartbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try{
-                Intent cartintent = new Intent(HomeActivity.this, CartActivity.class);
-                Log.v("Code.....",code);
-                Log.v("@@@", "" + name);
-                Log.v("@@", "" + price);
+                    Log.v("Code.....",code);
+                    Log.v("@@@", "" + name);
+                    Log.v("@@", "" + price);
 
-                     quantity =1;
+                    quantity =1;
                     CodeList.add(code);
                     if(!code.equals("1")) {
-                       // CodeList.add(code);
+                        // CodeList.add(code);
                         //testCodelist.add(code);
 
                         if (!name.isEmpty() && !price.isEmpty() && !qty.isEmpty()) {
                             myRef = reference.child(code);
+                            //myCartData = dummyRef.child(code);
                             HashMap<String, String> userMap = new HashMap<>();
                             userMap.put("Name", name);
                             userMap.put("Price", price);
-                            userMap.put("qty", qty);
+                            userMap.put("Qty", qty);
                             userMap.put("Code",code);
                             myRef.setValue(userMap);
-
-                            cart.put("Name", name);
+                            //myCartData.setValue(userMap);
+                            /*cart.put("Name", name);
                             cart.put("Price", price);
-                            cart.put("qty", qty);
-                            cart.put("Code",code);
+                            cart.put("Qty", qty);
+                            cart.put("Code",code);*/
                             Total = Integer.parseInt(qty)*Integer.parseInt(price);
                 /*HashMap<String,Integer> userMap1 = new HashMap<>();
                 userMap1.put("Quantity",totalQty);
@@ -173,14 +182,19 @@ public class HomeActivity extends AppCompatActivity {
                 cartintent.putExtra("value", value);
                 //Log.e("value", value);
                */
-             //  cartintent.putExtra("Codelist",testCodelist);
-               startActivity(cartintent);
-                            Log.v("CART ::",cart.toString());
+                            //  cartintent.putExtra("Codelist",testCodelist);
+                            Toast.makeText(HomeActivity.this,"Item Added to cart",Toast.LENGTH_SHORT).show();
+                            // Log.v("CART ::",cart.toString());
                             arrayAdapter.clear();
                             quantityTextView.setText("1");
                             code="";
                             name="";
                             price="";
+                            quantityTextView.setText("1");
+                            Inc.setVisibility(View.INVISIBLE);
+                            Dec.setVisibility(View.INVISIBLE);
+                            quantityTextView.setVisibility(View.INVISIBLE);
+                            infoqty.setVisibility(View.INVISIBLE);
                         } else {
                             quantityTextView.setText("1");
                             Inc.setVisibility(View.INVISIBLE);
@@ -229,14 +243,6 @@ public class HomeActivity extends AppCompatActivity {
                 infoqty.setVisibility(View.VISIBLE);
             }
         });
-
-        /*if(code.equals("")){
-            Toast.makeText(HomeActivity.this,"Product is not Found",Toast.LENGTH_SHORT).show();
-        }
-        else{
-            arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_product_list);
-            m_listView.setAdapter(arrayAdapter);
-        }*/
     }
 
     @Override
@@ -277,27 +283,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.logged_in_user, menu);
-        return true;
-    }*/
-
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item1) {
-        int id = item1.getItemId();
-        *//*if (id == R.id.action_open) {
-            showPictureDialog();
-            Log.v("HII", "action open");
-            return true;
-        }*//*
-        if(id == R.id.action_open)
-        {
-            return true;
-        }
-        return super.onOptionsItemSelected(item1);
-    }*/
 
     public void initNavigationDrawer() {
         NavigationView mnavigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -370,7 +355,12 @@ public class HomeActivity extends AppCompatActivity {
     private void display(int number) {
         totalQty = number;
         qty = String.valueOf(totalQty);
-        //quantityTextView = findViewById(R.id.quantity_text_view);
         quantityTextView.setText(qty);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
     }
 }

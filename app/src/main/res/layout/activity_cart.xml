@@ -18,6 +18,7 @@
          android:id="@+id/text"
          android:text="cart activity"/>-->
     <ScrollView
+        android:layout_above="@+id/payment"
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,11 +47,11 @@
                 android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 
-             <TextView
+            <!-- <TextView
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:layout_below="@+id/myRecyclerview"
-                 android:id="@+id/txt_amount"/>
+                 android:id="@+id/txt_amount"/>-->
 
         </RelativeLayout>
 

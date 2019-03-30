@@ -12,6 +12,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
@@ -27,6 +32,8 @@ import java.util.UUID;
 public class checksum extends AppCompatActivity implements PaytmPaymentTransactionCallback {
 
     static String status;
+    static String name,contact;
+    DatabaseReference mUserdatabase;
     static String total ="";
     static String orderId="", mid="",first,second,third,fourth;
     static FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
@@ -50,16 +57,16 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         first = parts[0] ;
         second = parts[1];
         third = parts[2];
-        fourth = parts[3];
-        String oodid =  "OD" + first + second + third + fourth;
+        String oodid =  "OD" + first + second + third ;
 
         Intent intent = getIntent();
         //orderId = intent.getExtras().getString("orderid");
         orderId = String.valueOf(oodid);
         custid = String.valueOf(custid);
         //custid = intent.getExtras().getString("custid");
-        total = String.valueOf(CartAdapter.amount);
-        Log.v("TOTAl >>> ",String.valueOf(CartAdapter.amount));
+        total = String.valueOf(CartActivity.finalTotal);
+
+        Log.v("TOTAl--",String.valueOf(CartActivity.finalTotal));
         CartAdapter.amount =0;
         mid = "PZbWtu87676061075527"; /// your marchant key
         sendUserDetailTOServerdd dl = new sendUserDetailTOServerdd();
@@ -72,7 +79,6 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         private ProgressDialog dialog = new ProgressDialog(checksum.this);
 
         //private String orderId , mid, custid, amt;
-        //String url ="http://192.168.43.198/Paytm_App_Checksum_Kit_PHP-master/generateChecksum.php";
         String url ="http://open4all.tk/paytmpayment/generateChecksum.php";
         String varifyurl =  "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID"+orderId;;
 
@@ -161,7 +167,7 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         startActivity(new Intent(checksum.this,VerifyData.class));
        /* i.putExtra("CustomerID",custid);
         i.putExtra("Total",total);*/
-       // startActivity(i);
+        // startActivity(i);
         finish();
     }
 

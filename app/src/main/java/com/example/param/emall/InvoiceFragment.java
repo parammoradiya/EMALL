@@ -29,7 +29,7 @@ import java.io.InputStream;
  * {@link android.graphics.Bitmap}s.
  */
 
-public class PdfRendererBasicFragment extends Fragment implements View.OnClickListener{
+public class InvoiceFragment extends Fragment implements View.OnClickListener{
     /*
      * Key string for saving the state of current page index.
      */
@@ -77,7 +77,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
      */
     private int mPageIndex;
 
-    public PdfRendererBasicFragment() {
+    public InvoiceFragment() {
         // Required empty public constructor
     }
 
@@ -119,15 +119,15 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    @Override
+    /*@Override
     public void onStop() {
         try {
-            closeRenderer();
+         //   closeRenderer();
         } catch (IOException e) {
             e.printStackTrace();
         }
         super.onStop();
-    }
+    }*/
 
 
     @Override
@@ -145,7 +145,7 @@ public class PdfRendererBasicFragment extends Fragment implements View.OnClickLi
         // In this sample, we read a PDF from the assets directory.
 
         String directory_path = Environment.getExternalStorageDirectory().getPath() + "/myBill/";
-        String targetPdf = directory_path + "Invoice"+checksum.orderId + ".pdf";
+        String targetPdf = directory_path + "InvoiceFragment"+checksum.orderId + ".pdf";
 
         File file = new File(targetPdf);
 
