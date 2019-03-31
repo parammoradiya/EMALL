@@ -16,6 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".OrderDetailsActivity"
+            android:parentActivityName=".OrderHistoryActivity"></activity>
         <activity android:name=".OrderHistoryActivity"
             android:parentActivityName=".HomeActivity"></activity>
         <activity

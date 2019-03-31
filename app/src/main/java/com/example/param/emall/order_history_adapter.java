@@ -1,6 +1,7 @@
 package com.example.param.emall;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,7 +32,7 @@ public class order_history_adapter extends RecyclerView.Adapter<order_history_ad
     }
 
     @Override
-    public void onBindViewHolder(@NonNull orderViewHolder orderViewHolder, int i) {
+    public void onBindViewHolder(@NonNull orderViewHolder orderViewHolder, final int i) {
         /*failedViewHolder.userId.setText("UserId:- "+failedModels.get(i).getOrderId());
         //Log.v("Id >>>",String.valueOf(failedModels.get(i).getOrderId()));
         failedViewHolder.allItem.setText(failedModels.get(i).getAllItem());*/
@@ -58,7 +59,17 @@ public class order_history_adapter extends RecyclerView.Adapter<order_history_ad
            @Override
            public void onClick(View v) {
 
-               Toast.makeText(context,"Wow",Toast.LENGTH_SHORT).show();
+               Intent intent = new Intent(context,OrderDetailsActivity.class);
+               intent.putExtra("allItem",orderhistorymodels.get(i).getAllItem());
+
+               intent.putExtra("Date",orderhistorymodels.get(i).getDate());
+               intent.putExtra("Time",orderhistorymodels.get(i).getTime());
+               intent.putExtra("Status",orderhistorymodels.get(i).getStatus());
+               intent.putExtra("TotalAmount",orderhistorymodels.get(i).getAmount());
+               intent.putExtra("Orderid",orderhistorymodels.get(i).getOrderId());
+               Log.v("aaaaaaaaaaaaaaaaaaaaaaa",String.valueOf(orderhistorymodels.get(i).getOrderId()));
+               context.startActivity(intent);
+
            }
        });
     }
@@ -68,7 +79,7 @@ public class order_history_adapter extends RecyclerView.Adapter<order_history_ad
         return orderhistorymodels.size();
     }
 
-    class orderViewHolder extends RecyclerView.ViewHolder {
+    class orderViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
         TextView userId, allItem, date,amount;
         ImageView statusImage;
         RelativeLayout rel;
@@ -81,6 +92,11 @@ public class order_history_adapter extends RecyclerView.Adapter<order_history_ad
             amount = (TextView)itemView.findViewById(R.id.order_amount);
 
             rel = (RelativeLayout) itemView.findViewById(R.id.rel);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }
