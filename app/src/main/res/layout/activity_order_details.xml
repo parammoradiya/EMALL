@@ -35,6 +35,14 @@
                 android:layout_below="@+id/headtext"
                 android:textSize="14sp" />
 
+            <ImageView
+                android:id="@+id/Status_Image1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/headtext"
+                android:layout_toRightOf="@+id/orderstatus"
+                android:layout_marginLeft="5dp"/>
+
             <LinearLayout
                 android:id="@+id/oa"
                 android:layout_below="@+id/orderstatus"

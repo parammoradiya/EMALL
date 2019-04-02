@@ -1,5 +1,6 @@
 package com.example.param.emall;
 
+import android.content.Context;
 import android.icu.text.Collator;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Response;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OrderHistoryActivity extends AppCompatActivity {
 
@@ -27,15 +30,19 @@ public class OrderHistoryActivity extends AppCompatActivity {
     ArrayList<order_history_model> mlist;
     DatabaseReference order_ref,dataRef;
     order_history_adapter orderAdapter;
+
     private Toolbar OToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
 
-        recyclerView = (RecyclerView)findViewById(R.id.order_recycler);
+        recyclerView = (RecyclerView) findViewById(R.id.order_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mlist = new ArrayList<order_history_model>();
+
+
+
 
         OToolbar = (Toolbar) findViewById(R.id.order_history);
 
@@ -46,17 +53,17 @@ public class OrderHistoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = Current_user.getUid();
-        Log.v("USER" , uid);
+        Log.v("USER", uid);
         order_ref = FirebaseDatabase.getInstance().getReference().child("EMALL Cart").child(uid).child("Order History");
 
         order_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     String key = dataSnapshot1.getKey();
                     dataRef = order_ref.child(key);
-                    Log.v("KEY >>>>>",key);
+                    Log.v("KEY >>>>>", key);
                     //Log.e("###","dataref"+dataRef);
                     //t1.setText(key);
 
@@ -71,16 +78,20 @@ public class OrderHistoryActivity extends AppCompatActivity {
                     fm.setOrderId(dataSnapshot1.child("OrderID").getValue().toString());
                     fm.setTime(dataSnapshot1.child("Time").getValue().toString());
                     fm.setAmount(dataSnapshot1.child("Amount").getValue().toString());
-                    Log.v("Amount >> ",dataSnapshot1.child("Amount").getValue().toString());
+                    Log.v("Amount >> ", dataSnapshot1.child("Amount").getValue().toString());
                     mlist.add(fm);
 
                     // }
                     //FailedModel fm =dataSnapshot1.getValue(FailedModel.class);
                     // Log.e("###","key"+key+"##"+dataSnapshot1.toString());
+
+                   Collections.reverse(mlist);
                 }
-                orderAdapter = new order_history_adapter(OrderHistoryActivity.this,mlist);
+
+                orderAdapter = new order_history_adapter(OrderHistoryActivity.this, mlist);
                 recyclerView.setAdapter(orderAdapter);
                 orderAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -92,7 +103,5 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
 
 
-
     }
-
 }

@@ -19,7 +19,8 @@ public class VerifyData extends AppCompatActivity {
     DatabaseReference Transaction,Orderhistory,productlistremove,mUserdatabase;
     FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
     String uid = Current_user.getUid();
-    static String name,contact;
+    static String name[] = new String[2];
+        static String contact[] = new String[2];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +43,33 @@ public class VerifyData extends AppCompatActivity {
             Orderhistory.setValue(CartAdapter.allItem);
             //for temporery
             productlistremove.removeValue();
+            FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = Current_user.getUid();
+            mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
+            mUserdatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(int i=0;i<2;i++){
+                        name[i] = dataSnapshot.child("Name").getValue().toString();
+                        contact[i] = dataSnapshot.child("Contact_no").getValue().toString();
+                    }
+
+                    Log.v("Data >>>>>",name[0] + " " + contact[0]);
+                    Intent i = new Intent(VerifyData.this,FinalBillActivity.class);
+                    i.putExtra("Name",name[0]);
+                    i.putExtra("Contact",contact[0]);
+                    startActivity(i);
+                    finish();
+                    //canvas.drawText("Cutomer Name:- " + name[0] + "               " + "Mobile number:- " + contact[0], 40, 240, paint );
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    //for handle error while retriving data
+                }
+            });
 
 
-            startActivity(new Intent(VerifyData.this,FinalBillActivity.class));
-            finish();
+
         }
         else if(checksum.status.equalsIgnoreCase("Pending")){
             Transaction = FirebaseDatabase.getInstance().getReference().child("All Transaction").child("Pending").child(checksum.orderId);

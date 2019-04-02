@@ -25,27 +25,30 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FinalBillActivity extends AppCompatActivity {
 
 
     private static ArrayList<Activity> activities=new ArrayList<Activity>();
-
+    DatabaseReference generateBill,addedItem;
     Button btnCreate;
     TextView text;
     String count1;
     private Toolbar OToolbar;
-    //int count=0;
-    public String name="",contact="";
     private DatabaseReference mUserdatabase;
     private FirebaseUser mCurrentuser;
     UserData ud;
@@ -73,9 +76,7 @@ public class FinalBillActivity extends AppCompatActivity {
 //        setSupportActionBar(OToolbar);
       //  getSupportActionBar().setTitle("INVOICE");
      //   getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = Current_user.getUid();
-        mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
+
 
       /*  mUserdatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -138,9 +139,9 @@ public class FinalBillActivity extends AppCompatActivity {
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(790, 1122, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
-        Canvas canvas = page.getCanvas();
-
-        Paint paint = new Paint();
+        final Canvas canvas = page.getCanvas();
+        generateBill = FirebaseDatabase.getInstance().getReference().child("Generate Bill").child(checksum.orderId);
+        final Paint paint = new Paint();
         paint.setColor(Color.parseColor("#ffffff"));
         canvas.drawPaint(paint);
 
@@ -151,7 +152,30 @@ public class FinalBillActivity extends AppCompatActivity {
         canvas.drawBitmap(bitmap, 40, 50 , null);
         //Log.v("Name And Contact : ",checksum.name + " " + checksum.contact);
         canvas.drawText("Order ID:- " + checksum.orderId, 40, 220, paint);
-        //canvas.drawText("Cutomer Name:- " + ud.getName() + "               " + "Mobile number:- " + ud.getContact() , 40, 240, paint );
+        /*FirebaseUser Current_user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = Current_user.getUid();
+        final String[] name = new String[1];
+        final String[] contact = new String[1];
+        mUserdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(uid);
+        mUserdatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                name[0] = dataSnapshot.child("Name").getValue().toString();
+                contact[0] = dataSnapshot.child("Contact_no").getValue().toString();
+                canvas.drawText("Cutomer Name:- " + name[0] + "               " + "Mobile number:- " + contact[0], 40, 240, paint );
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //for handle error while retriving data
+            }
+        });*/
+        //
+        Intent intent1 =new Intent();
+        Bundle bundle = getIntent().getExtras();
+        String name = bundle.getString("Name");
+        String contact = bundle.getString("Contact");
+
+        canvas.drawText("Cutomer Name:- " + name + "               " + "Mobile number:- " + contact, 40, 240, paint );
         canvas.drawText("Date:- " + HomeActivity.dateString + "   Time:- " + HomeActivity.timeString, 40,260, paint);
 
         canvas.drawText("", 40, 280, paint);
@@ -160,13 +184,21 @@ public class FinalBillActivity extends AppCompatActivity {
                 "Price/item"  + "          "+ "Price", 40, 300, paint);
         canvas.drawText("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", 40, 320, paint);
        //Log.v("PRODUCT >>",CartItemConfirmActivity.ProductData[0]);
-
+        HashMap<String,String> billData = new HashMap<>();
+        billData.put("User",name);
+        billData.put("Contact",contact);
         for (int i=0;i<CartActivity.ProductQty.length;i++) {
+            addedItem = generateBill.child("Item "+(i+1));
             canvas.drawText( CartActivity.ProductData[i] , 40, y, paint);
+            billData.put("Name",CartActivity.ProductData[i]);
             canvas.drawText(String.valueOf(CartActivity.ProductQty[i]),480,y,paint);
+            billData.put("Qty",String.valueOf(CartActivity.ProductQty[i]));
             canvas.drawText(String.valueOf(CartActivity.ProductPrice[i]),550,y,paint);
+            billData.put("Price",String.valueOf(CartActivity.ProductPrice[i]));
             canvas.drawText(String.valueOf(CartActivity.ProductQty[i]*CartActivity.ProductPrice[i]),630,y,paint);
+            billData.put("Total",String.valueOf(CartActivity.ProductQty[i]*CartActivity.ProductPrice[i]));
            // Log.v("DATA >>",String.valueOf(CartAdapter.qty[i]));
+            addedItem.setValue(billData);
             //canvas.drawText("------------------------------------------------------------------------------------------", 40, 240, paint);
             y += 20;
         }
@@ -241,7 +273,7 @@ public class FinalBillActivity extends AppCompatActivity {
                 noti.flags |= Notification.FLAG_AUTO_CANCEL;
                 notificationManager.notify(0, noti);
 
-                Toast.makeText(FinalBillActivity.this, "InvoiceFragment Downloaded", Toast.LENGTH_LONG).show();
+                Toast.makeText(FinalBillActivity.this, "Invoice Downloaded", Toast.LENGTH_LONG).show();
 
 
                /*Intent emailIntent = new Intent(Intent.ACTION_SEND);

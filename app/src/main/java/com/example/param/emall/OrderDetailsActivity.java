@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class OrderDetailsActivity extends AppCompatActivity {
@@ -15,6 +16,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     TextView headertext,orderstatus,orderid,date,totalamount,allitem;
     String Totalamount,Status,Date,Orderid,Time,AllItem;
     private Toolbar OToolbar;
+    ImageView statusimage1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -27,12 +29,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
         date = (TextView)findViewById(R.id.date);
         totalamount = (TextView)findViewById(R.id.totalamount);
         allitem = (TextView)findViewById(R.id.allitem);
+        statusimage1 = (ImageView)findViewById(R.id.Status_Image1);
 
         OToolbar = (Toolbar) findViewById(R.id.Order_Detail_toolbar);
-
-        setSupportActionBar(OToolbar);
-        getSupportActionBar().setTitle("ORDER DETAIL");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = new Intent();
         Bundle extras = getIntent().getExtras();
@@ -51,13 +50,26 @@ public class OrderDetailsActivity extends AppCompatActivity {
             Log.v("hiiii",String.valueOf(Orderid));
         }
 
-        headertext.setText("Payment of RS. " + Totalamount + " is done !");
-        orderstatus.setText(Status + "\n\n");
-        orderid.setText(Orderid + "\n");
-        date.setText(Date + "\n" + Time +"\n\n");
-        totalamount.setText("Rs. "+Totalamount);
-        allitem.setText("\n\n"+AllItem);
+        setSupportActionBar(OToolbar);
+        getSupportActionBar().setTitle("OID:" + Orderid);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+     if(Status.equalsIgnoreCase("Success")) {
+         headertext.setText("Payment of RS. " + Totalamount + " is done !");
+         orderstatus.setText(Status + "\n\n");
+         orderid.setText(Orderid + "\n");
+         date.setText(Date + "\n" + Time + "\n\n");
+         totalamount.setText("Rs. " + Totalamount);
+         allitem.setText("\n\n" + AllItem);
+     }
+     else if(Status.equalsIgnoreCase("Failed")){
+         headertext.setText("Your Transaction Failed !");
+         orderstatus.setText(Status + "\n\n");
+         orderid.setText(Orderid + "\n");
+         date.setText(Date + "\n" + Time + "\n\n");
+         totalamount.setText("Rs. " + Totalamount);
+         allitem.setText("\n\n" + AllItem);
+     }
     }
 
 

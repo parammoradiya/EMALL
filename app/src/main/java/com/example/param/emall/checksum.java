@@ -53,11 +53,11 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         String timeString = timeonly.format(date).toString();
 
         UUID odid  = UUID.randomUUID();
-        String[] parts = odid.toString().split("-");
-        first = parts[0] ;
-        second = parts[1];
-        third = parts[2];
-        String oodid =  "OD" + first + second + third ;
+        String[] parts = odid.toString().split("");
+        first = parts[5] ;
+        second = parts[6];
+        third = parts[7];
+        String oodid =  "OD" + first + second +third;
 
         Intent intent = getIntent();
         //orderId = intent.getExtras().getString("orderid");

@@ -90,4 +90,10 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        startActivity(new Intent(FeedbackActivity.this,HomeActivity.class));
+    }
 }
