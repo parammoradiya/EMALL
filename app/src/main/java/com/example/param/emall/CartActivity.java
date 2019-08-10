@@ -53,14 +53,14 @@ public class CartActivity extends AppCompatActivity {
     TextView pname, pprice, pqua, txt_amount;
     FirebaseListAdapter adapter;
     String code;
-    static int count=1000;
+    static int count = 1000;
     static int finalTotal = 0;
     static int amount, TotalPrice;
     //   int[] total;
     int pos = 0;
     private FirebaseUser mCurrentuser;
 
-    Button mcartdelete,btn_pay;
+    Button mcartdelete, btn_pay;
 
     static ArrayList<cartactivitymodel> mlist;
     private DatabaseReference mUserdatabase, mref, mreference;
@@ -69,9 +69,9 @@ public class CartActivity extends AppCompatActivity {
     private String orderid;
     //ArrayList<String> testCodelist;
 
-    TextView totalqty,totalamount,txt_name,txt_price;
+    TextView totalqty, totalamount, txt_name, txt_price;
     ImageView close;
-    static int finalqty=0;
+    static int finalqty = 0;
     static String ProductData[];
     static int ProductQty[];
     static int ProductPrice[];
@@ -88,7 +88,6 @@ public class CartActivity extends AppCompatActivity {
         //mcartdelete = (Button)findViewById(R.id.cartdelete);
         list = new ArrayList();
         OToolbar = (Toolbar) findViewById(R.id.Cart_toolbar);
-
 
 
         //  Log.v("CODE::>",""+testCodelist.size());
@@ -122,23 +121,23 @@ public class CartActivity extends AppCompatActivity {
                     //Log.v("CODE","@@@"+dataSnapshot1.child("Code").getValue()+" $$$ "+dataSnapshot1.child("Name").getValue().toString()+" %%% "+ dataSnapshot1.child("Price").getValue().toString() + "!!!!" + dataSnapshot1.child("Qty").getValue().toString());
                     mlist.add(ca);
                 }
-                if(mlist.isEmpty()) {
+                if (mlist.isEmpty()) {
                     AlertDialog.Builder mBuilder = new AlertDialog.Builder(CartActivity.this);
                     mBuilder.setMessage("No item in Cart");
                     mBuilder.setCancelable(false);
                     mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(new Intent(CartActivity.this,HomeActivity.class));
+                            startActivity(new Intent(CartActivity.this, HomeActivity.class));
                         }
                     });
                     mBuilder.show();
                     btn_payment.setVisibility(View.INVISIBLE);
-                }
-                else{
+                } else {
                     btn_payment.setVisibility(View.VISIBLE);
                     madapter = new CartAdapter(CartActivity.this, mlist);
-                    mrecyclerview.setAdapter(madapter);}
+                    mrecyclerview.setAdapter(madapter);
+                }
             }
 
             @Override
@@ -165,34 +164,34 @@ public class CartActivity extends AppCompatActivity {
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(CartActivity.this);
                 mBuilder.setCancelable(false);
                 //View mView = View.inflate(context,R.layout.update_data,null);
-                View mView = View.inflate(CartActivity.this,R.layout.cart_confirm_dialog,null);
+                View mView = View.inflate(CartActivity.this, R.layout.cart_confirm_dialog, null);
 
 
-                txt_name = (TextView)mView.findViewById(R.id.txt_Name);
-                txt_price = (TextView)mView.findViewById(R.id.txt_Price);
+                txt_name = (TextView) mView.findViewById(R.id.txt_Name);
+                txt_price = (TextView) mView.findViewById(R.id.txt_Price);
                 totalqty = (TextView) mView.findViewById(R.id.edt_total_qty);
                 totalamount = (TextView) mView.findViewById(R.id.edt_total_amount);
-                btn_pay = (Button)mView.findViewById(R.id.btn_update);
+                btn_pay = (Button) mView.findViewById(R.id.btn_update);
 
-                close = (ImageView)mView.findViewById(R.id.cancelDialog);
+                close = (ImageView) mView.findViewById(R.id.cancelDialog);
 
                 CartAdapter.amount = 0;
-                CartAdapter.tqty = 0 ;
+                CartAdapter.tqty = 0;
 
                 ProductData = new String[CartAdapter.pri.length];
                 ProductQty = new int[CartAdapter.pri.length];
                 ProductPrice = new int[CartAdapter.pri.length];
 
-                for(int j=0;j<CartAdapter.qty.length;j++){
+                for (int j = 0; j < CartAdapter.qty.length; j++) {
                     ProductData[j] = CartAdapter.product[j];
                     ProductPrice[j] = CartAdapter.pri[j];
                     ProductQty[j] = CartAdapter.qty[j];
-                    CartAdapter.amount = CartAdapter.amount + (CartAdapter.qty[j]*CartAdapter.pri[j]);
+                    CartAdapter.amount = CartAdapter.amount + (CartAdapter.qty[j] * CartAdapter.pri[j]);
                     CartAdapter.tqty = CartAdapter.tqty + CartAdapter.qty[j];
                     //CartAdapter.productname = CartAdapter.productname + CartAdapter.product[i] + "\n";
                 }
 
-                finalTotal = CartAdapter.amount ;
+                finalTotal = CartAdapter.amount;
                 finalqty = CartAdapter.tqty;
                 totalqty.setText(String.valueOf(finalqty));
                 totalamount.setText(String.valueOf(finalTotal));
@@ -217,8 +216,8 @@ public class CartActivity extends AppCompatActivity {
                 btn_pay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(CartActivity.this,checksum.class));
-                  }
+                        startActivity(new Intent(CartActivity.this, checksum.class));
+                    }
                 });
                 dialog.show();
                 //btn_payment.setVisibility(View.INVISIBLE);
@@ -365,7 +364,7 @@ public class CartActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(CartActivity.this,HomeActivity.class));
+        startActivity(new Intent(CartActivity.this, HomeActivity.class));
         finish();
 
     }

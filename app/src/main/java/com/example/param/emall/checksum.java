@@ -69,6 +69,8 @@ public class checksum extends AppCompatActivity implements PaytmPaymentTransacti
         Log.v("TOTAl--",String.valueOf(CartActivity.finalTotal));
         CartAdapter.amount =0;
         mid = "PZbWtu87676061075527"; /// your marchant key
+        //mid = "eYKGvk82490748916706";
+        //mid = "zUbpKC89782497004845";
         sendUserDetailTOServerdd dl = new sendUserDetailTOServerdd();
         dl.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

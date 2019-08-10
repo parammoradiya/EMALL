@@ -62,6 +62,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
          totalamount.setText("Rs. " + Totalamount);
          allitem.setText("\n\n" + AllItem);
      }
+
      else if(Status.equalsIgnoreCase("Failed")){
          headertext.setText("Your Transaction Failed !");
          orderstatus.setText(Status + "\n\n");

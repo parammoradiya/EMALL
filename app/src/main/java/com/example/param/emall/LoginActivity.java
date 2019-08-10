@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 String name = OUser_Email.getText().toString();
                 String Password = OUser_Password.getText().toString();
 
+
                 OLoginProgressDialog.setMessage("Wait a Second");
                 OLoginProgressDialog.show();
                 OLoginProgressDialog.setCanceledOnTouchOutside(false);
